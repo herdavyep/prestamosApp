@@ -1,0 +1,13 @@
+.CrearCompra{
+    margin-left: auto;
+    margin-right: auto;
+}
+.CrearCompra label{
+    text-align: right;
+}
+.BotonAceptar{
+    margin-top: 100px
+}
+.Total{
+    margin-top: 15px
+}

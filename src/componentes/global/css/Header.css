@@ -1,0 +1,41 @@
+
+.Header {
+    background-color: rgb(228, 223, 223);
+    height: auto;
+    padding: 20px;
+    color: #222;
+    text-align: center;
+  }
+  .Imagen {
+      display: inline;
+      padding-bottom: 15px;
+  }
+  .Titulo{
+      display: inline;
+  }
+  .User{
+    display: inline;
+    padding: 30px;
+  }
+  .Menu{
+    margin-top: 10px;
+    padding: 0px;
+    list-style: none;
+  }
+  
+  .Menu li {
+    display: inline-block;
+    padding-right: 18px;
+    
+  }
+  .Menu li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+  }
+  
+  .Menu li a:hover {
+    color: rgb(145, 110, 110);
+  }
+  .Menu li a:active {
+    color: rgb(223, 146, 146);
+  }  
