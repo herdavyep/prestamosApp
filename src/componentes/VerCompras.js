@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import './global/css/VerCompras.css';
+import swal from 'sweetalert';
+
 
 class VerCompras extends Component {
     constructor(){
         super();
         this.state = {
-            bandera:false,
             compras:[],
             fecha:'',
             nombre:'',
             calidad:'Pergamino',
-            peso:'',
+            pesoKilos:'',
+            pesoArrobas:'',
             valorUnidad:'',
             total:'',
             user:'',
             selectDia:'1',
             selectMes:'1',
-            selectYear:'2018'
-    
-    
+            selectYear:'2018',
+            keyID:'',
+            idArray:''    
         };
+        this.handleDatabase = this.handleDatabase.bind(this);
         this.renderTabla=this.renderTabla.bind(this)
         this.renderSelectFecha=this.renderSelectFecha.bind(this)
 
@@ -28,6 +31,31 @@ class VerCompras extends Component {
     _isMounted = false
 
     componentDidMount(e){
+        var dt = new Date()
+        var dia = dt.getDate();
+        var mes = dt.getMonth()+1;
+        var year = dt.getFullYear();
+        var fecha = (dia+"/"+mes+"/"+year); 
+
+        firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(fecha).on('child_changed', snap => {
+            const { compras } = this.state;            
+            compras.push({
+                keyID: snap.key,
+                fecha: snap.val().fecha,
+                horaExacta: snap.val().horaExacta,
+                nombre: snap.val().nombre,
+                pesoKilos: snap.val().pesoKilos,
+                pesoArrobas:snap.val().pesoArrobas,
+                total: snap.val().total,
+                user: snap.val().user,
+                valorUnidad:snap.val().valorUnidad,
+                calidad: snap.val().calidad   
+            });
+            compras.splice(this.state.idArray,1);
+            if(this._isMounted){        
+                this.setState({compras});
+            }
+        });
         this._isMounted = true
         console.log("cdm")
     }
@@ -56,7 +84,8 @@ class VerCompras extends Component {
                 fecha: snap.val().fecha,
                 horaExacta: snap.val().horaExacta,
                 nombre: snap.val().nombre,
-                peso: snap.val().peso,
+                pesoKilos: snap.val().pesoKilos,
+                pesoArrobas:snap.val().pesoArrobas,
                 total: snap.val().total,
                 user: snap.val().user,
                 valorUnidad:snap.val().valorUnidad,
@@ -88,7 +117,8 @@ class VerCompras extends Component {
                     fecha: snap.val().fecha,
                     horaExacta: snap.val().horaExacta,
                     nombre: snap.val().nombre,
-                    peso: snap.val().peso,
+                    pesoKilos: snap.val().pesoKilos,
+                    pesoArrobas:snap.val().pesoArrobas,
                     total: snap.val().total,
                     user: snap.val().user,
                     valorUnidad:snap.val().valorUnidad,
@@ -96,9 +126,7 @@ class VerCompras extends Component {
                 });
                 
                 this.setState({
-                    compras:compras,
-                    bandera:true
-        
+                    compras:compras,        
                 });      
                    
                 console.log(compras)
@@ -144,7 +172,7 @@ class VerCompras extends Component {
       }
     actualizarPeso(e) {
         this.setState({
-            peso: e.target.value,
+            pesoKilos: e.target.value,
         });   
     }
 
@@ -154,16 +182,20 @@ class VerCompras extends Component {
         });
     }
 
-    cargarFormulario(id,e){
+    cargarFormulario(id,i,e){
         e.preventDefault();
+        this.setState({
+            idArray:i
+          });
         const { compras } = this.state;
         for(let i = 0; i < compras.length; i++) {
             if(compras[i].keyID === id) {
                 this.setState({
                     nombre:compras[i].nombre,
                     calidad:compras[i].calidad,
-                    peso:compras[i].peso,
+                    pesoKilos:compras[i].pesoKilos,
                     valorUnidad:compras[i].valorUnidad,
+                    keyID:compras[i].keyID
                 })
                 //console.log(pictures[i].nombre)
             }
@@ -175,15 +207,16 @@ class VerCompras extends Component {
         return(
             <div className="Tabla col-md-8"> 
             <br/>
-            <div className="ContenedorTitulo">
-                <h1 className="Titulo display-4">Compras</h1>     
-            </div> 
-            <br/>
-            <div className="FechaTabla">
-                <h5>Buscar compras por fecha</h5>
-                {this.renderSelectFecha()}
-            </div>
-            
+            <div className="card">
+                <div className="ContenedorTitulo">
+                    <h1 className="Titulo display-4">Compras</h1>     
+                </div> 
+                <br/>
+                <div className="FechaTabla">
+                    <h5>Buscar compras por fecha</h5>
+                    {this.renderSelectFecha()}
+                </div> 
+            </div>           
             <br/>  
             <br/>
             <table className="table table-bordered" id="tabla">
@@ -193,7 +226,8 @@ class VerCompras extends Component {
                     <th scope="col">Fecha-Hora</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Calidad</th>
-                    <th scope="col">Peso</th>
+                    <th scope="col">Peso Kilos</th>
+                    <th scope="col">Peso Arrobas</th>
                     <th scope="col">Valor Unidad</th>
                     <th scope="col">Total</th>
                     <th scope="col"></th>          
@@ -207,12 +241,14 @@ class VerCompras extends Component {
                         <td>{compra.fecha+" - "+compra.horaExacta}</td>
                         <td>{compra.nombre}</td>
                         <td><p>{compra.calidad}</p></td>
-                        <td>{compra.peso}</td>
+                        <td>{compra.pesoKilos}</td>
+                        <td>{compra.pesoArrobas}</td>
                         <td>{compra.valorUnidad.toLocaleString('es-CO')}</td> 
                         <td>{compra.total.toLocaleString('es-CO')}</td> 
                         <td>
-                        <div className="container">
-                            <button type="button" className="badge badge-primary" data-toggle="modal" data-target="#myModal" onClick={this.cargarFormulario.bind(this,compra.keyID)}>Editar compra</button>
+                        <div className="container"> 
+                            <button type="button" className="badge badge-primary" data-toggle="modal" data-target="#myModal" onClick={this.cargarFormulario.bind(this,compra.keyID,i)}><i className="far fa-edit Icono"></i></button>
+                            <a href="" onClick={this.eliminarCompra.bind(this,compra.keyID)} className="badge badge-danger"><i className="far fa-trash-alt Icono"></i></a>
                             <div className="modal fade" id="myModal" role="dialog">
                                 <div className="modal-dialog">     
                                     <div className="modal-content">
@@ -221,28 +257,34 @@ class VerCompras extends Component {
                                         </div>
                                         <div className="ModalForm modal-body">
                                         <form action="">
-                                            <label htmlFor="">Nombre</label><br/>
-                                            <input type="text" value={this.state.nombre} onChange={this.actualizarNombre.bind(this)}/><br/><br/>
-                                            <label htmlFor="">Calidad</label><br/>
+                                            <label htmlFor="NombreModal">Nombre</label><br/>
+                                            <input className="form-control" id="NombreModal" type="text" value={this.state.nombre} onChange={this.actualizarNombre.bind(this)}/><br/>
+                                            <label htmlFor="CalidadModal">Calidad</label><br/>
                                             <select 
+                                                className="form-control"
+                                                id="CalidadModal"
                                                 value={this.state.calidad}
                                                 onChange={this.actualizarCalida.bind(this)}>
                                                 <option>Pergamino</option>
                                                 <option>Cafe verde</option>
                                                 <option>Pasilla</option>
                                                 <option>Otro</option>
-                                            </select><br/><br/>
-                                            <label htmlFor="">Peso @</label><br/>
-                                            <input type="text" value={this.state.peso} onChange={this.actualizarPeso.bind(this)}/><br/><br/>
-                                            <label htmlFor="">Valor Unidad</label><br/>
-                                            <input type="text" value={this.state.valorUnidad} onChange={this.actualizarValorUnidad.bind(this)}/><br/><br/>
-                                            <label htmlFor="">Total</label><br/>
-                                            <h5>{this.state.peso*this.state.valorUnidad}</h5>
+                                            </select><br/>
+                                            <label htmlFor="PesoKilosModal">Peso Kilos</label><br/>
+                                            <input className="form-control" id="PesoKilosModal" type="text" value={this.state.pesoKilos} onChange={this.actualizarPeso.bind(this)}/><br/>
+                                            
+                                            <label htmlFor="ValorUnidadModal">Valor Unidad</label><br/>
+                                            <input className="form-control" id="ValorUnidadModal" type="text" value={this.state.valorUnidad} onChange={this.actualizarValorUnidad.bind(this)}/><br/>
+                                            
+                                            <span >Total</span><br/>
+                                            <h5>{"$ "+((this.state.pesoKilos*this.state.valorUnidad)/12.5).toLocaleString('es-CO')}</h5>
+                                            <span>Arrobas</span>
+                                            <h5>{"@ "+this.state.pesoKilos/12.5}</h5>
 
                                         </form>
                                         </div>
                                         <div className="modal-footer">
-                                            <button type="button" className="badge badge-primary" data-dismiss="modal">Close</button>
+                                            <button onClick={this.handleDatabase} type="button" className="badge badge-primary" data-dismiss="modal"><i className="fas fa-check Icono"></i></button>
                                         </div>
                                     </div>
                                 
@@ -251,15 +293,85 @@ class VerCompras extends Component {
                             
                             </div>
                         <br/>
-                        <a href="" onClick={this.eliminarCompra.bind(this,compra.keyID)} className="badge badge-danger">Eliminar</a>
                         </td>                                     
                     </tr>
                     </tbody>             
                 ))//.reverse()
             }  
-            </table>      
+            </table> 
         </div>
         )
+    }
+
+    handleDatabase(event){
+        event.preventDefault();
+        var dt = new Date()
+        var dia = dt.getDate();
+        var mes = dt.getMonth()+1;
+        var year = dt.getFullYear();
+        var hora = dt.getHours();
+        var minutos = dt.getMinutes();
+        var fecha = (dia+"/"+mes+"/"+year);
+        var horaExacta = (hora+":"+minutos);
+
+        if(this.state.pesoKilos === ''|| this.state.valorUnidad === '' ){
+            swal("Campos vacios!", "¡No se puede editar una compra sin datos !", "warning");
+        
+        }else if(this.state.nombre===''){
+            const nombre = 'clientes varios'
+            const record = { 
+                nombre : nombre,
+                calidad: this.state.calidad,
+                pesoKilos: this.state.pesoKilos*1,
+                pesoArrobas:this.state.pesoKilos/12.5,
+                valorUnidad: this.state.valorUnidad*1,
+                total: (this.state.valorUnidad*this.state.pesoKilos)/12.5,        
+            }
+
+            const dbRef = firebase.database().ref('compraDeCafe/compras');
+            dbRef.child(this.state.keyID).update(record
+            ,function(error) {
+                if (error) {
+                    console.log(error.message)
+                } else {
+                    swal("Compra editada!", "haz click en el boton!", "success");                  
+                }
+            } );
+
+            this.setState({
+                nombre:'',
+                peso:'',
+                valorUnidad:'',
+                total:''
+            })
+
+        } else{
+            const record = { 
+                nombre : this.state.nombre,
+                calidad: this.state.calidad,
+                pesoKilos: this.state.pesoKilos*1,
+                pesoArrobas:this.state.pesoKilos/12.5,
+                valorUnidad: this.state.valorUnidad*1,
+                total: (this.state.valorUnidad*this.state.pesoKilos)/12.5,
+        
+            } 
+        
+            const dbRef = firebase.database().ref('compraDeCafe/compras');
+            dbRef.child(this.state.keyID).update(record
+            ,function(error) {
+                if (error) {
+                    console.log(error.message)
+                } else {
+                    swal("Compra editada!", "haz click en el boton!", "success");               
+                }
+            } );
+            this.setState({
+                nombre:'',
+                peso:'',
+                valorUnidad:'',
+                total:''
+            })
+       }            
     }
 
     renderSelectFecha(){
@@ -283,7 +395,7 @@ class VerCompras extends Component {
                     <option >2018</option> <option>2019</option>< option>2020</option>
                 </select>
 
-                <a href="" onClick={this.actualizarTabla.bind(this)} className="BotonBuscar badge badge-primary">Buscar</a>
+                <a href="" onClick={this.actualizarTabla.bind(this)} className="BotonBuscar badge badge-primary"><i className="fas fa-search Icono"></i></a>
             </div>           
         )
     }

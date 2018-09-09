@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import swal from 'sweetalert';
+
 
 import './css/InicioDeSesion.css';
 
@@ -31,7 +33,10 @@ class InicioDeSesion extends Component {
     login(event){
         event.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.contrasena)
-        .then(result => console.log(`${result.user.email } ha iniciado sesion`))
+        .then(result => 
+    
+        swal(result.user.email,"Inicio exitoso!",  "success")                 
+    )
         .catch(function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -50,8 +55,9 @@ class InicioDeSesion extends Component {
             <br/>
                 <form onSubmit={this.login.bind(this)}>
                     <div className="form-group ">
-                        <label className="">Correo Electronico</label>
+                        <label className="" htmlFor="correo">Correo Electronico</label>
                         <input 
+                            id="correo"
                             className="form-control" 
                             type="email" 
                             placeholder="Ingrese el correo"
@@ -61,8 +67,9 @@ class InicioDeSesion extends Component {
                         <small className="form-text text-muted">Nunca compartiremos su correo electrónico con nadie más.</small>
                     </div>
                     <div className="form-group">
-                            <label className="">Contraseña</label>
+                        <label className="" htmlFor="contrasena">Contraseña</label>
                         <input 
+                            id="contrasena"
                             className="form-control" 
                             type="password" 
                             placeholder="Ingrese la contraseña"

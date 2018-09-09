@@ -1,13 +1,27 @@
 .CrearCompra{
     margin-left: auto;
     margin-right: auto;
+    background-color: #efefef;
 }
 .CrearCompra label{
-    text-align: right;
+    text-align: left;
 }
 .BotonAceptar{
-    margin-top: 100px
+    margin-top: 0px;
+    height: 46px;
 }
 .Total{
-    margin-top: 15px
+    text-align: center;
+}
+.BloqueBoton{
+    text-align: center;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.Arrobas{
+    text-align: center;
+}
+.Icono{
+    font-size: 30px;
 }

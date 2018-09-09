@@ -1,7 +1,12 @@
-.NavBar{
-    background-color: rgb(214, 211, 211);
+.Nav{
+    background-color: #bdbdbd;
     text-align: center;
-
+}
+.Nav li{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+#Salir{
 }
 .Texto{
     color: #222;

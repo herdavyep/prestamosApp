@@ -11,7 +11,8 @@ class CrearCompras extends Component {
             fecha:'',
             nombre:'',
             calidad:'Pergamino',
-            peso:'',
+            pesoKilos:'',
+            pesoArrobas:'',
             valorUnidad:'',
             total:'',
             user:''
@@ -21,17 +22,29 @@ class CrearCompras extends Component {
         this.renderFecha=this.renderFecha.bind(this)
         this.renderFormulario=this.renderFormulario.bind(this)
 
-
-
     }
+
+    _isMounted = false
+
     componentWillMount(){
+        
         firebase.auth().onAuthStateChanged(user => {
-            //if(this._isMounted){
+            if(this._isMounted){
                 this.setState({ 
                     user: user 
                 });
-           // }  
+            }  
         })
+    }
+
+    componentDidMount(e){
+        this._isMounted = true
+        console.log("cdm")
+    }
+
+   componentWillUnmount(){
+        console.log("cwu");
+        this._isMounted = false
     }
 
     actualizarNombre(e) {
@@ -48,13 +61,13 @@ class CrearCompras extends Component {
 
     actualizarPeso(e) {
         this.setState({
-          peso: e.target.value,
+          pesoKilos: e.target.value,
         });   
       }
 
     actualizarValorUnidad(e) {
         this.setState({
-          valorUnidad: e.target.value,
+          valorUnidad: e.target.value
         });
       }
 
@@ -73,57 +86,71 @@ class CrearCompras extends Component {
         return(
             <div className="card CrearCompra col-md-8 container">
                 <h1 className="display-4">Crear compra</h1>
-                <div className="row">
-                    <div className="Bloque col-sm">
-                        {this.renderFecha()}
-                        <br/><br/><br/>
-                        <label>Nombre del cliente</label><br/>
+                {this.renderFecha()}
+                <br/>
+                <div className="form-row ">
+                    <div className="form-group col-md-7">
+                        <label htmlFor="nombreCliente">Nombre del cliente</label>
                         <input 
                         type="text"
+                        id="nombreCliente"
                         placeholder="Ejemplo: Juan"
                         value={this.state.nombre}
-                        onChange={this.actualizarNombre.bind(this)}/>
-                        <br/><br/>
-                        <label>Calidad</label>
-                        <br/>
+                        onChange={this.actualizarNombre.bind(this)} className="form-control"/> <br/>
+                        <label htmlFor="calidad">Calidad</label>
                         <select 
+                        id="calidad"
                         value={this.state.calidad}
-                        onChange={this.actualizarCalida.bind(this)}>
+                        onChange={this.actualizarCalida.bind(this)} className="form-control">
                             <option>Pergamino</option>
                             <option>Cafe verde</option>
                             <option>Pasilla</option>
                             <option>Otro</option>
                         </select>
                     </div>
-                    <div className="Bloque col-sm">
-                        <br/><br/><br/><br/><br/>
-                        <button  onClick={this.handleDatabase.bind(this)} className="BotonAceptar">Aceptar</button>
-                        <h5 className="Total">{"$ "+
-                            //console.log(number.toLocaleString('de-DE'))
-                            (this.state.peso*this.state.valorUnidad).toLocaleString('es-CO')}
-                        </h5>
-                    </div>
-                    <div className="Bloque col-sm">
-                        <br/><br/><br/><br/>
-                        <label>Peso @</label><br/>
+                    <div className="form-group col-md-5">
+                        <label htmlFor="pesoCompra">Peso en kilos</label>
                         <input 
+                        id="pesoCompra"
                         type="number"
                         name="peso"
-                        placeholder="Ejemplo: 20.52"
-                        value={this.state.peso}
+                        placeholder="Ejemplo: 200 o 34.5"
+                        value={this.state.pesoKilos}
                         onChange={this.actualizarPeso.bind(this)}
                         autoComplete="nombre"
-                        />
-                        <br/><br/>
-                        <label>Valor unidad</label><br/>
+                        className="form-control"/> <br/>
+                        <label htmlFor="valorCompra">Valor unidad</label>
                         <input 
-                        type="number"
+                        id="valorCompra"
+                        type="text"
                         name="valorUnidad"
                         placeholder="Ejemplo: 72.000"
-                        value={this.state.valorUnidad}
+                        value={this.state.valorUnidad.toLocaleString('es-CO')}
                         onChange={this.actualizarValorUnidad.bind(this)}
-                        autoComplete="nombre"/>
+                        autoComplete="nombre"
+                        className="form-control"/>
                     </div>
+            
+                </div>
+                <div className="form-row">
+                    <div className="col">
+                    
+                        <h4 className="Arrobas">{"@ "+
+                            //console.log(number.toLocaleString('de-DE'))
+                            (this.state.pesoKilos/12.5)}
+                        </h4>
+                    </div>
+                    <div className="col">
+                    <h4 className="Total">{"$ "+
+                            //console.log(number.toLocaleString('de-DE'))
+                            ((this.state.pesoKilos*this.state.valorUnidad)/12.5).toLocaleString('es-CO')}
+                        </h4>
+                    </div>
+                </div>
+                <div className="form-row">
+                    <div className="BloqueBoton col-md-12 form-group">
+                        <button  onClick={this.handleDatabase.bind(this)} className="BotonAceptar btn btn-primary  btn-lg btn-block"><i className="far fa-hand-point-up Icono"></i></button>
+                    </div>                   
                 </div>
             </div>
         )
@@ -131,7 +158,6 @@ class CrearCompras extends Component {
 
     handleDatabase(event){
         event.preventDefault();
-
         var dt = new Date()
         var dia = dt.getDate();
         var mes = dt.getMonth()+1;
@@ -141,39 +167,73 @@ class CrearCompras extends Component {
         var fecha = (dia+"/"+mes+"/"+year);
         var horaExacta = (hora+":"+minutos);
 
-       
-        const record = { 
-            fecha: fecha,
-            nombre : this.state.nombre,
-            calidad: this.state.calidad,
-            peso: this.state.peso*1,
-            valorUnidad: this.state.valorUnidad*1,
-            total: this.state.valorUnidad*this.state.peso,
-            user: this.state.user.email,
-            horaExacta: horaExacta
-      
-        } 
-      
-        const dbRef = firebase.database().ref('compraDeCafe/compras');
-        const newPicture = dbRef.push();
-        newPicture.set(record
-        ,function(error) {
-            if (error) {
-                console.log(error.message)
-            } else {
-                swal("Compra exitosa!", "haz click en el boton!", "success");
+        if(this.state.pesoKilos === ''|| this.state.valorUnidad === '' ){
+            swal("Campos vacios!", "¡No se puede hacer una compra sin datos !", "warning");
+        
+        }else if(this.state.nombre===''){
+            const nombre = 'clientes varios'
+            const record = { 
+                fecha: fecha,
+                nombre : nombre,
+                calidad: this.state.calidad,
+                pesoKilos: this.state.pesoKilos*1,
+                pesoArrobas:this.state.pesoKilos/12.5,
+                valorUnidad: this.state.valorUnidad*1,
+                total: (this.state.valorUnidad*this.state.pesoKilos)/12.5,
+                user: this.state.user.email,
+                horaExacta: horaExacta
+        
             }
-          } );
+
+            const dbRef = firebase.database().ref('compraDeCafe/compras');
+            const newPicture = dbRef.push();
+            newPicture.set(record
+            ,function(error) {
+                if (error) {
+                    console.log(error.message)
+                } else {
+                    swal("Compra exitosa!", "haz click en el boton!", "success");                  
+                }
+            } );
+
+            this.setState({
+                nombre:'',
+                peso:'',
+                valorUnidad:'',
+                total:''
+            })
+
+        } else{
+            const record = { 
+                fecha: fecha,
+                nombre : this.state.nombre,
+                calidad: this.state.calidad,
+                pesoKilos: this.state.pesoKilos*1,
+                pesoArrobas:this.state.pesoKilos/12.5,
+                valorUnidad: this.state.valorUnidad*1,
+                total: (this.state.valorUnidad*this.state.pesoKilos)/12.5,
+                user: this.state.user.email,
+                horaExacta: horaExacta
         
-        this.setState({
-            fecha:'',
-            nombre:'',
-            calidad:'Pergamino',
-            peso:'',
-            valorUnidad:'',
-            total:''
+            } 
         
-        });  
+            const dbRef = firebase.database().ref('compraDeCafe/compras');
+            const newPicture = dbRef.push();
+            newPicture.set(record
+            ,function(error) {
+                if (error) {
+                    console.log(error.message)
+                } else {
+                    swal("Compra exitosa!", "haz click en el boton!", "success");               
+                }
+            } );
+            this.setState({
+                nombre:'',
+                peso:'',
+                valorUnidad:'',
+                total:''
+            })
+       }            
     }
 
     prueba(e){

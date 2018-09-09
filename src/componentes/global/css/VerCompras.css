@@ -2,8 +2,6 @@
     margin-right: auto;
     margin-left: auto;
     text-align: center;
-
-
 }
 .Tabla h1{
     text-align: center;
@@ -14,8 +12,10 @@
 }
 .FechaTabla{
     text-align: left;
-    background-color:rgb(225, 221, 221);
+    background-color:#dbd8d8;
     width: 300px;
+    margin-bottom: 5px;
+    margin-left: 5px;
 
 }
 .BotonBuscar{
@@ -26,4 +26,13 @@
 .ModalForm{
     text-align: left;
 
+}
+.card{
+    background-color: #efefef;
+}
+.Icono{
+    font-size: 25px;
+}
+.container{
+    display: inline-block;
 }
