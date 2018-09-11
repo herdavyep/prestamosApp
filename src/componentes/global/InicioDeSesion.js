@@ -60,7 +60,7 @@ class InicioDeSesion extends Component {
                             id="correo"
                             className="form-control" 
                             type="email" 
-                            placeholder="Ingrese el correo"
+                            placeholder="Ingrese el correo" 
                             value={this.state.correo}
                             onChange={this.actualizarCorreo.bind(this)}
                             autoComplete="nombre"/>
@@ -77,7 +77,7 @@ class InicioDeSesion extends Component {
                             onChange={this.actualizarContrasena.bind(this)}
                             autoComplete="nombre"/>
                     </div>
-                    <button type="submit" className="btn btn-primary" onClick={this.login.bind(this)}>Enviar</button>
+                    <button type="submit" className="btn btn-primary btn-lg btn-block" onClick={this.login.bind(this)}>Enviar</button>
                 </form>
             </div>
         )

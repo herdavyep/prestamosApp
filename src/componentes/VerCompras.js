@@ -17,11 +17,12 @@ class VerCompras extends Component {
             valorUnidad:'',
             total:'',
             user:'',
-            selectDia:'1',
-            selectMes:'1',
-            selectYear:'2018',
+            selectDia:'',
+            selectMes:'',
+            selectYear:'',
             keyID:'',
-            idArray:''    
+            idArray:'',
+            fechaParaBuscar:''    
         };
         this.handleDatabase = this.handleDatabase.bind(this);
         this.renderTabla=this.renderTabla.bind(this)
@@ -29,40 +30,8 @@ class VerCompras extends Component {
 
     }
     _isMounted = false
+    id=''
 
-    componentDidMount(e){
-        var dt = new Date()
-        var dia = dt.getDate();
-        var mes = dt.getMonth()+1;
-        var year = dt.getFullYear();
-        var fecha = (dia+"/"+mes+"/"+year); 
-
-        firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(fecha).on('child_changed', snap => {
-            const { compras } = this.state;            
-            compras.push({
-                keyID: snap.key,
-                fecha: snap.val().fecha,
-                horaExacta: snap.val().horaExacta,
-                nombre: snap.val().nombre,
-                pesoKilos: snap.val().pesoKilos,
-                pesoArrobas:snap.val().pesoArrobas,
-                total: snap.val().total,
-                user: snap.val().user,
-                valorUnidad:snap.val().valorUnidad,
-                calidad: snap.val().calidad   
-            });
-            compras.splice(this.state.idArray,1);
-            if(this._isMounted){        
-                this.setState({compras});
-            }
-        });
-        this._isMounted = true
-        console.log("cdm")
-    }
-   componentWillUnmount(){
-        console.log("cwu");
-        this._isMounted = false
-      }
     componentWillMount(){
         var dt = new Date()
         var dia = dt.getDate();
@@ -91,17 +60,70 @@ class VerCompras extends Component {
                 valorUnidad:snap.val().valorUnidad,
                 calidad: snap.val().calidad   
             });
-            if(this._isMounted){        
+            //if(this._isMounted){        
                 this.setState({compras});
-            }
+            //}
         });
     console.log("cwm");
 
     }
 
-    componentDidUpdate(){
-        console.log("cdu");
+    componentDidMount(){
+
+        const { compras } = this.state;
+
+        firebase.database().ref('compraDeCafe/compras').on('child_removed', snap => {
+            for(let i = 0; i < compras.length; i++) {
+                if(compras[i].keyID === snap.key) {
+                    compras.splice(i , 1);
+                }
+            }
+            this.setState({ compras });
+        });
+        //this._isMounted = true     
+
+        console.log("cdm")
     }
+
+   componentWillUnmount(){
+        console.log("cwu");
+        this._isMounted = false
+    }
+
+    componentWillUpdate(){
+        /*firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.fechaParaBuscar).on('child_added', snap => {
+            const { compras } = this.state;            
+            compras.push({
+                keyID: snap.key,
+                fecha: snap.val().fecha,
+                horaExacta: snap.val().horaExacta,
+                nombre: snap.val().nombre,
+                pesoKilos: snap.val().pesoKilos,
+                pesoArrobas:snap.val().pesoArrobas,
+                total: snap.val().total,
+                user: snap.val().user,
+                valorUnidad:snap.val().valorUnidad,
+                calidad: snap.val().calidad   
+            });
+            //compras.splice(this.id,1);
+            //if(this._isMounted){        
+            this.setState({compras});
+            //}
+        }); */
+        
+        console.log("cwu");
+    }
+
+    EliminarAlmacen(id,e){
+        e.preventDefault();
+        var r = window.confirm("Esta seguro?");
+        if (r === true) {
+            const dbRef = firebase.database().ref('compraDeCafe/compras');
+            dbRef.child(id).remove();
+        } else {
+    
+        }    
+      }
 
     actualizarTabla(e){
         e.preventDefault();
@@ -112,33 +134,30 @@ class VerCompras extends Component {
         firebase.database().ref('compraDeCafe/compras')
         .orderByChild("fecha").equalTo(this.state.selectDia+"/"+this.state.selectMes+"/"+this.state.selectYear)
         .on('child_added', snap => {  
-                compras.push({
-                    keyID: snap.key,
-                    fecha: snap.val().fecha,
-                    horaExacta: snap.val().horaExacta,
-                    nombre: snap.val().nombre,
-                    pesoKilos: snap.val().pesoKilos,
-                    pesoArrobas:snap.val().pesoArrobas,
-                    total: snap.val().total,
-                    user: snap.val().user,
-                    valorUnidad:snap.val().valorUnidad,
-                    calidad: snap.val().calidad   
-                });
-                
-                this.setState({
-                    compras:compras,        
-                });      
+            compras.push({
+                keyID: snap.key,
+                fecha: snap.val().fecha,
+                horaExacta: snap.val().horaExacta,
+                nombre: snap.val().nombre,
+                pesoKilos: snap.val().pesoKilos,
+                pesoArrobas:snap.val().pesoArrobas,
+                total: snap.val().total,
+                user: snap.val().user,
+                valorUnidad:snap.val().valorUnidad,
+                calidad: snap.val().calidad   
+            });
+            
+            this.setState({
+                compras:compras,        
+            });      
                    
-                console.log(compras)
-
-         });
-         console.log(this.state.compras)
+        });
     }
 
-    eliminarCompra(id,e){
+    /*eliminarCompra(id,e){
         e.preventDefault();
         console.log(id)
-    }
+    }*/
 
     actualizarCalida(e) {
         this.setState({
@@ -184,9 +203,8 @@ class VerCompras extends Component {
 
     cargarFormulario(id,i,e){
         e.preventDefault();
-        this.setState({
-            idArray:i
-          });
+            this.id=i
+        //console.log(i+"  "+this.id)
         const { compras } = this.state;
         for(let i = 0; i < compras.length; i++) {
             if(compras[i].keyID === id) {
@@ -195,7 +213,8 @@ class VerCompras extends Component {
                     calidad:compras[i].calidad,
                     pesoKilos:compras[i].pesoKilos,
                     valorUnidad:compras[i].valorUnidad,
-                    keyID:compras[i].keyID
+                    keyID:compras[i].keyID,
+                    fechaParaBuscar:compras[i].fecha
                 })
                 //console.log(pictures[i].nombre)
             }
@@ -248,7 +267,7 @@ class VerCompras extends Component {
                         <td>
                         <div className="container"> 
                             <button type="button" className="badge badge-primary" data-toggle="modal" data-target="#myModal" onClick={this.cargarFormulario.bind(this,compra.keyID,i)}><i className="far fa-edit Icono"></i></button>
-                            <a href="" onClick={this.eliminarCompra.bind(this,compra.keyID)} className="badge badge-danger"><i className="far fa-trash-alt Icono"></i></a>
+                            <a href="" onClick={this.EliminarAlmacen.bind(this,compra.keyID)} className="badge badge-danger"><i className="far fa-trash-alt Icono"></i></a>
                             <div className="modal fade" id="myModal" role="dialog">
                                 <div className="modal-dialog">     
                                     <div className="modal-content">
@@ -305,17 +324,9 @@ class VerCompras extends Component {
 
     handleDatabase(event){
         event.preventDefault();
-        var dt = new Date()
-        var dia = dt.getDate();
-        var mes = dt.getMonth()+1;
-        var year = dt.getFullYear();
-        var hora = dt.getHours();
-        var minutos = dt.getMinutes();
-        var fecha = (dia+"/"+mes+"/"+year);
-        var horaExacta = (hora+":"+minutos);
-
+        
         if(this.state.pesoKilos === ''|| this.state.valorUnidad === '' ){
-            swal("Campos vacios!", "¡No se puede editar una compra sin datos !", "warning");
+            swal("Campos vacios!", "¡No se puede hacer una compra sin datos !", "warning");
         
         }else if(this.state.nombre===''){
             const nombre = 'clientes varios'
@@ -338,13 +349,6 @@ class VerCompras extends Component {
                 }
             } );
 
-            this.setState({
-                nombre:'',
-                peso:'',
-                valorUnidad:'',
-                total:''
-            })
-
         } else{
             const record = { 
                 nombre : this.state.nombre,
@@ -365,13 +369,29 @@ class VerCompras extends Component {
                     swal("Compra editada!", "haz click en el boton!", "success");               
                 }
             } );
-            this.setState({
-                nombre:'',
-                peso:'',
-                valorUnidad:'',
-                total:''
-            })
-       }            
+       }
+       this.setState({compras:[]});
+        var {compras} = this.state; 
+        compras=[]; 
+       firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.fechaParaBuscar).on('child_added', snap => {
+        //const { compras } = this.state;            
+        compras.push({
+            keyID: snap.key,
+            fecha: snap.val().fecha,
+            horaExacta: snap.val().horaExacta,
+            nombre: snap.val().nombre,
+            pesoKilos: snap.val().pesoKilos,
+            pesoArrobas:snap.val().pesoArrobas,
+            total: snap.val().total,
+            user: snap.val().user,
+            valorUnidad:snap.val().valorUnidad,
+            calidad: snap.val().calidad   
+        });
+        //compras.splice(this.id,1);
+        //if(this._isMounted){        
+        this.setState({compras});
+        //}
+    }); 
     }
 
     renderSelectFecha(){

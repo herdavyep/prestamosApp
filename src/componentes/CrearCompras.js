@@ -82,9 +82,9 @@ class CrearCompras extends Component {
         )   
     }
   
-    renderFormulario(){
+    renderFormulario(){ 
         return(
-            <div className="card CrearCompra col-md-8 container">
+            <div className="CrearCompra card col-md-8">
                 <h1 className="display-4">Crear compra</h1>
                 {this.renderFecha()}
                 <br/>
@@ -198,7 +198,7 @@ class CrearCompras extends Component {
 
             this.setState({
                 nombre:'',
-                peso:'',
+                pesoKilos:'',
                 valorUnidad:'',
                 total:''
             })
@@ -229,7 +229,7 @@ class CrearCompras extends Component {
             } );
             this.setState({
                 nombre:'',
-                peso:'',
+                pesoKilos:'',
                 valorUnidad:'',
                 total:''
             })

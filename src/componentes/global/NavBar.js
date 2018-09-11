@@ -106,7 +106,7 @@ class NavBar extends Component {
                             </ul>
                             <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
                                 <li className="nav-item active "id="Salir">
-                                    <a className="nav-link" href="#">Salir <span className="sr-only">(current)</span></a>
+                                    <a className="nav-link" href="#" onClick={this.handleLogout} >Salir <span className="sr-only">(current)</span></a>
                                 </li>
                             </ul>
                             

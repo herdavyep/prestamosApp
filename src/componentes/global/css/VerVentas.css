@@ -1,0 +1,38 @@
+.Tabla{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+.Tabla h1{
+    text-align: center;
+}
+
+.ContenedorTitulo{
+    text-align: center;
+}
+.FechaTabla{
+    text-align: left;
+    background-color:#dbd8d8;
+    width: 300px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+
+}
+.BotonBuscar{
+    width: 300px;
+    height: 30px;
+    
+}
+.ModalForm{
+    text-align: left;
+
+}
+.card{
+    background-color: #efefef;
+}
+.Icono{
+    font-size: 25px;
+}
+.container{
+    display: inline-block;
+}
