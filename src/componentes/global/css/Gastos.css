@@ -1,0 +1,11 @@
+.logo{
+    background-image: url('https://i.pinimg.com/originals/26/80/8b/26808beeefbd72fefb32246e578ef371.png');
+    height: 100vh;
+}
+.contenedor{
+    width: 200px;
+    height: 200px;
+}
+.imagen{
+    height: 100vh;
+}

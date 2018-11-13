@@ -91,26 +91,6 @@ class VerVentas extends Component {
     }
 
     componentWillUpdate(){
-        /*firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.fechaParaBuscar).on('child_added', snap => {
-            const { compras } = this.state;            
-            compras.push({
-                keyID: snap.key,
-                fecha: snap.val().fecha,
-                horaExacta: snap.val().horaExacta,
-                nombre: snap.val().nombre,
-                pesoKilos: snap.val().pesoKilos,
-                pesoArrobas:snap.val().pesoArrobas,
-                total: snap.val().total,
-                user: snap.val().user,
-                valorUnidad:snap.val().valorUnidad,
-                calidad: snap.val().calidad   
-            });
-            //compras.splice(this.id,1);
-            //if(this._isMounted){        
-            this.setState({compras});
-            //}
-        }); */
-        
         console.log("cwu");
     }
 
@@ -153,11 +133,6 @@ class VerVentas extends Component {
                    
         });
     }
-
-    /*eliminarCompra(id,e){
-        e.preventDefault();
-        console.log(id)
-    }*/
 
     actualizarCalida(e) {
         this.setState({

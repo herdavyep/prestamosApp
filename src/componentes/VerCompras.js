@@ -30,7 +30,6 @@ class VerCompras extends Component {
 
     }
     _isMounted = false
-    id=''
 
     componentWillMount(){
         var dt = new Date()
@@ -38,13 +37,13 @@ class VerCompras extends Component {
         var mes = dt.getMonth()+1;
         var year = dt.getFullYear();
         var fecha = (dia+"/"+mes+"/"+year); 
-        //if(this._isMounted){
+       // if(this._isMounted){
             this.setState({
                 selectDia:dia,
                 selectMes:mes,
                 selectYear:year
             })
-       // }
+        //}
         console.log(fecha)
           firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(fecha).on('child_added', snap => {
             const { compras } = this.state;            
@@ -60,9 +59,9 @@ class VerCompras extends Component {
                 valorUnidad:snap.val().valorUnidad,
                 calidad: snap.val().calidad   
             });
-            //if(this._isMounted){        
+            if(this._isMounted){        
                 this.setState({compras});
-            //}
+            }
         });
     console.log("cwm");
 
@@ -80,7 +79,7 @@ class VerCompras extends Component {
             }
             this.setState({ compras });
         });
-        //this._isMounted = true     
+        this._isMounted = true     
 
         console.log("cdm")
     }
@@ -90,39 +89,16 @@ class VerCompras extends Component {
         this._isMounted = false
     }
 
-    componentWillUpdate(){
-        /*firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.fechaParaBuscar).on('child_added', snap => {
-            const { compras } = this.state;            
-            compras.push({
-                keyID: snap.key,
-                fecha: snap.val().fecha,
-                horaExacta: snap.val().horaExacta,
-                nombre: snap.val().nombre,
-                pesoKilos: snap.val().pesoKilos,
-                pesoArrobas:snap.val().pesoArrobas,
-                total: snap.val().total,
-                user: snap.val().user,
-                valorUnidad:snap.val().valorUnidad,
-                calidad: snap.val().calidad   
-            });
-            //compras.splice(this.id,1);
-            //if(this._isMounted){        
-            this.setState({compras});
-            //}
-        }); */
-        
-        console.log("cwu");
-    }
-
     EliminarAlmacen(id,e){
         e.preventDefault();
-        var r = window.confirm("Esta seguro?");
+       var r = window.confirm("Esta seguro?");
         if (r === true) {
             const dbRef = firebase.database().ref('compraDeCafe/compras');
             dbRef.child(id).remove();
         } else {
     
-        }    
+        } 
+        
       }
 
     actualizarTabla(e){
@@ -153,11 +129,6 @@ class VerCompras extends Component {
                    
         });
     }
-
-    /*eliminarCompra(id,e){
-        e.preventDefault();
-        console.log(id)
-    }*/
 
     actualizarCalida(e) {
         this.setState({
@@ -203,8 +174,7 @@ class VerCompras extends Component {
 
     cargarFormulario(id,i,e){
         e.preventDefault();
-            this.id=i
-        //console.log(i+"  "+this.id)
+
         const { compras } = this.state;
         for(let i = 0; i < compras.length; i++) {
             if(compras[i].keyID === id) {
@@ -216,15 +186,13 @@ class VerCompras extends Component {
                     keyID:compras[i].keyID,
                     fechaParaBuscar:compras[i].fecha
                 })
-                //console.log(pictures[i].nombre)
             }
-        }
-        
+        }       
     }
 
     renderTabla(){
         return(
-            <div className="Tabla col-md-8"> 
+            <div className="Tabla col-sm-8"> 
             <br/>
             <div className="card">
                 <div className="ContenedorTitulo">
@@ -310,7 +278,7 @@ class VerCompras extends Component {
                                 </div>
                             </div>
                             
-                            </div>
+                        </div>
                         <br/>
                         </td>                                     
                     </tr>
@@ -347,9 +315,9 @@ class VerCompras extends Component {
                 } else {
                     swal("Compra editada!", "haz click en el boton!", "success");                  
                 }
-            } );
+            });
 
-        } else{
+        }else{
             const record = { 
                 nombre : this.state.nombre,
                 calidad: this.state.calidad,
@@ -370,10 +338,10 @@ class VerCompras extends Component {
                 }
             } );
        }
-       this.setState({compras:[]});
+        this.setState({compras:[]});
         var {compras} = this.state; 
         compras=[]; 
-       firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.fechaParaBuscar).on('child_added', snap => {
+        firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.fechaParaBuscar).on('child_added', snap => {
         //const { compras } = this.state;            
         compras.push({
             keyID: snap.key,

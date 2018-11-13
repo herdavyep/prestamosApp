@@ -1,0 +1,14 @@
+.Icono{
+    font-size: 25px;
+}
+.CajaSelectButton{
+    display:inline-flex;
+}
+.CajaSelectButton select{
+    margin-right: 5px;
+}
+.TituloPrincipal {
+    text-align: center;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}

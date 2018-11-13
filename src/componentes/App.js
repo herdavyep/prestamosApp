@@ -17,16 +17,27 @@ class App extends Component {
     children: PropTypes.object.isRequired
   };
 
+  is_mouted=false
+
   componentWillMount(){
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ 
         user: user 
       });
     })
+    this.is_mouted=true
   }
+  componentDidMount(){
+    
+  }
+
+  componentWillUnmount(){
+    this.is_mouted=false
+  }
+
   render() {
     const{ children } = this.props;
-    if(this.state.user){
+    if(this.state.user && this.is_mouted){
         return (
           <div className="App">
             <NavBar/>

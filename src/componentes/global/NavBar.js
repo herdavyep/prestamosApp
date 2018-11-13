@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import menuCompras from '../../data/menuCompras';
-import menuCuadreDeCaja from '../../data/menuCuadreDeCaja';
-import promedios from '../../data/promedios';
-import menuVentas from '../../data/menuVentas';
 import firebase from 'firebase';
 import logo from './images/grano-cafe.png';
 
@@ -90,6 +86,7 @@ class NavBar extends Component {
                                 </a>
                                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <Link className="dropdown-item" to="/Promedios" href="#">Promedios</Link>
+                                <Link className="dropdown-item" to="/PromediosGuardados" href="#">Promedios guardados</Link>
                                 </div>
                             </li>
                             <li className="nav-item dropdown active">
@@ -103,15 +100,12 @@ class NavBar extends Component {
                                 <Link className="dropdown-item" to="/HistorialDeCierres"href="#">Historial de cierres</Link>
                                 </div>
                             </li>
-                            </ul>
-                            <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-                                <li className="nav-item active "id="Salir">
+                            <li className="nav-item active "id="Salir">
                                     <a className="nav-link" href="#" onClick={this.handleLogout} >Salir <span className="sr-only">(current)</span></a>
-                                </li>
-                            </ul>
+                            </li>
                             
-                        
-                    </div>
+                        </ul>
+                   </div>
                 </nav>
             </div>
         );

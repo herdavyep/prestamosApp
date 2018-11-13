@@ -15,7 +15,8 @@ class CrearCompras extends Component {
             pesoArrobas:'',
             valorUnidad:'',
             total:'',
-            user:''
+            user:'',
+            enPromedio:false
 
         } 
 
@@ -51,25 +52,25 @@ class CrearCompras extends Component {
         this.setState({
           nombre: e.target.value   
         });
-      }
+    }
 
     actualizarCalida(e) {
         this.setState({
           calidad: e.target.value  
         });
-      }
+    }
 
     actualizarPeso(e) {
         this.setState({
           pesoKilos: e.target.value,
         });   
-      }
+    }
 
     actualizarValorUnidad(e) {
         this.setState({
           valorUnidad: e.target.value
         });
-      }
+    }
 
     renderFecha(){       
         var dt = new Date()
@@ -122,7 +123,7 @@ class CrearCompras extends Component {
                         <label htmlFor="valorCompra">Valor unidad</label>
                         <input 
                         id="valorCompra"
-                        type="text"
+                        type="number"
                         name="valorUnidad"
                         placeholder="Ejemplo: 72.000"
                         value={this.state.valorUnidad.toLocaleString('es-CO')}
@@ -181,7 +182,9 @@ class CrearCompras extends Component {
                 valorUnidad: this.state.valorUnidad*1,
                 total: (this.state.valorUnidad*this.state.pesoKilos)/12.5,
                 user: this.state.user.email,
-                horaExacta: horaExacta
+                horaExacta: horaExacta,
+                enPromedio:this.state.enPromedio,
+                calidad_enPromedio:(this.state.calidad+"_"+this.state.enPromedio)
         
             }
 
@@ -213,7 +216,9 @@ class CrearCompras extends Component {
                 valorUnidad: this.state.valorUnidad*1,
                 total: (this.state.valorUnidad*this.state.pesoKilos)/12.5,
                 user: this.state.user.email,
-                horaExacta: horaExacta
+                horaExacta: horaExacta,
+                enPromedio:this.state.enPromedio,
+                calidad_enPromedio:(this.state.calidad+"_"+this.state.enPromedio)
         
             } 
         
