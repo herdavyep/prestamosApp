@@ -7,12 +7,12 @@ import AppRoutes from './routes';
 import {  BrowserRouter as Router } from 'react-router-dom';
 
 firebase.initializeApp({
-    apiKey: "AIzaSyAk2vkyGyxlwb8Op06dQSBusjevhh108kQ",
-    authDomain: "compra-cafe-heri.firebaseapp.com",
-    databaseURL: "https://compra-cafe-heri.firebaseio.com",
-    projectId: "compra-cafe-heri",
-    storageBucket: "",
-    messagingSenderId: "1099267404920"
+    apiKey: "AIzaSyDHhqog7mMfc0lXWG9X9sUz7aKtgyTmgl0",
+    authDomain: "prestamosappjuanp.firebaseapp.com",
+    databaseURL: "https://prestamosappjuanp.firebaseio.com",
+    projectId: "prestamosappjuanp",
+    storageBucket: "prestamosappjuanp.appspot.com",
+    messagingSenderId: "66079732116"
 });
 
 

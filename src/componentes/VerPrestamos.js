@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import './global/css/VerCompras.css';
+import './global/css/VerPrestamos.css';
 import swal from 'sweetalert';
 
-
-class VerCompras extends Component {
+class VerPrestamos extends Component { 
     constructor(){
         super();
         this.state = {
-            compras:[],
-            fecha:'',
+            prestamos:[],
             nombre:'',
-            calidad:'Pergamino',
-            pesoKilos:'',
-            pesoArrobas:'',
-            valorUnidad:'',
-            total:'',
+            numCuotas:'',
+            monto:'',
+            intereses:'',
+            valorCuota:'',
             user:'',
-            selectDia:'',
-            selectMes:'',
-            selectYear:'',
+            activado:'',
             keyID:'',
             idArray:'',
-            fechaParaBuscar:''    
+            usuarioParaBuscar:''   
         };
         this.handleDatabase = this.handleDatabase.bind(this);
         this.renderTabla=this.renderTabla.bind(this)
@@ -32,44 +27,32 @@ class VerCompras extends Component {
     _isMounted = false
 
     componentWillMount(){
-        var dt = new Date()
-        var dia = dt.getDate();
-        var mes = dt.getMonth()+1;
-        var year = dt.getFullYear();
-        var fecha = (dia+"/"+mes+"/"+year); 
-       // if(this._isMounted){
-            this.setState({
-                selectDia:dia,
-                selectMes:mes,
-                selectYear:year
-            })
-        //}
-        console.log(fecha)
-          firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(fecha).on('child_added', snap => {
-            const { compras } = this.state;            
-            compras.push({
+      
+        firebase.database().ref('prestamosJuan/prestamo').on('child_added', snap => {
+            const { prestamos} = this.state;            
+            prestamos.push({
                 keyID: snap.key,
                 fecha: snap.val().fecha,
                 horaExacta: snap.val().horaExacta,
                 nombre: snap.val().nombre,
-                pesoKilos: snap.val().pesoKilos,
-                pesoArrobas:snap.val().pesoArrobas,
-                total: snap.val().total,
+                numCuotas: snap.val().numCuotas,
+                monto:snap.val().monto,
+                intereses: snap.val().intereses,
                 user: snap.val().user,
-                valorUnidad:snap.val().valorUnidad,
-                calidad: snap.val().calidad   
+                valorCuota:snap.val().valorCuota,
+                activado: snap.val().activado   
             });
+            console.log(prestamos);
             if(this._isMounted){        
-                this.setState({compras});
+                this.setState({prestamos});
             }
         });
-    console.log("cwm");
 
     }
 
     componentDidMount(){
 
-        const { compras } = this.state;
+        const { prestamos: compras } = this.state;
 
         firebase.database().ref('compraDeCafe/compras').on('child_removed', snap => {
             for(let i = 0; i < compras.length; i++) {
@@ -105,7 +88,7 @@ class VerCompras extends Component {
         e.preventDefault();
        // this.setState({ bandera:false });
         this.setState({compras:[]});
-        var {compras} = this.state; 
+        var {prestamos: compras} = this.state; 
         compras=[];  
         firebase.database().ref('compraDeCafe/compras')
         .orderByChild("fecha").equalTo(this.state.selectDia+"/"+this.state.selectMes+"/"+this.state.selectYear)
@@ -175,7 +158,7 @@ class VerCompras extends Component {
     cargarFormulario(id,i,e){
         e.preventDefault();
 
-        const { compras } = this.state;
+        const { prestamos: compras } = this.state;
         for(let i = 0; i < compras.length; i++) {
             if(compras[i].keyID === id) {
                 this.setState({
@@ -194,48 +177,37 @@ class VerCompras extends Component {
         return(
             <div className="Tabla col-sm-8"> 
             <br/>
-            <div className="card">
-                <div className="ContenedorTitulo">
-                    <h1 className="Titulo display-4">Compras</h1>     
-                </div> 
-                <br/>
-                <div className="FechaTabla">
-                    <h5>Buscar compras por fecha</h5>
-                    {this.renderSelectFecha()}
-                </div> 
-            </div>           
+                      
             <br/>  
             <br/>
             <table className="table table-bordered" id="tabla">
             <thead>
                 <tr>
-                    <th scope="col">Usuario</th>
-                    <th scope="col">Fecha-Hora</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Calidad</th>
-                    <th scope="col">Peso Kilos</th>
-                    <th scope="col">Peso Arrobas</th>
-                    <th scope="col">Valor Unidad</th>
-                    <th scope="col">Total</th>
-                    <th scope="col"></th>          
+                <th scope="col">Usuario</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Intereses</th>
+                <th scope="col"># cuotas</th>
+                <th scope="col">Valor cuota</th>
+                <th scope="col"></th>
+                      
                 </tr>
             </thead> 
             { 
-                this.state.compras.map((compra,i) => (
+                this.state.prestamos.map((prestamo,i) => (
                     <tbody key={i}>
                     <tr>
-                        <th scope="row">{compra.user}</th>
-                        <td>{compra.fecha+" - "+compra.horaExacta}</td>
-                        <td>{compra.nombre}</td>
-                        <td><p>{compra.calidad}</p></td>
-                        <td>{compra.pesoKilos}</td>
-                        <td>{compra.pesoArrobas}</td>
-                        <td>{compra.valorUnidad.toLocaleString('es-CO')}</td> 
-                        <td>{compra.total.toLocaleString('es-CO')}</td> 
+                        <th scope="row">{prestamo.user}</th>
+                        <td>{prestamo.fecha+" - "+prestamo.horaExacta}</td>
+                        <td>{prestamo.nombre}</td>
+                        <td><p>{prestamo.monto}</p></td>
+                        <td>{prestamo.intereses}</td>
+                        <td>{prestamo.numCuotas}</td>
+                        <td>{prestamo.valorCuota}</td> 
                         <td>
                         <div className="container"> 
-                            <button type="button" className="badge badge-primary" data-toggle="modal" data-target="#myModal" onClick={this.cargarFormulario.bind(this,compra.keyID,i)}><i className="far fa-edit Icono"></i></button>
-                            <a href="" onClick={this.EliminarAlmacen.bind(this,compra.keyID)} className="badge badge-danger"><i className="far fa-trash-alt Icono"></i></a>
+                            <button type="button" className="badge badge-primary" data-toggle="modal" data-target="#myModal" onClick={this.cargarFormulario.bind(this,prestamo.keyID,i)}><i className="far fa-edit Icono"></i></button>
+                            <a href="" onClick={this.EliminarAlmacen.bind(this,prestamo.keyID)} className="badge badge-danger"><i className="far fa-trash-alt Icono"></i></a>
                             <div className="modal fade" id="myModal" role="dialog">
                                 <div className="modal-dialog">     
                                     <div className="modal-content">
@@ -280,7 +252,8 @@ class VerCompras extends Component {
                             
                         </div>
                         <br/>
-                        </td>                                     
+                        </td> 
+                                                             
                     </tr>
                     </tbody>             
                 ))//.reverse()
@@ -339,9 +312,9 @@ class VerCompras extends Component {
             } );
        }
         this.setState({compras:[]});
-        var {compras} = this.state; 
+        var {prestamos: compras} = this.state; 
         compras=[]; 
-        firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.fechaParaBuscar).on('child_added', snap => {
+        firebase.database().ref('compraDeCafe/compras').orderByChild("fecha").equalTo(this.state.usuarioParaBuscar).on('child_added', snap => {
         //const { compras } = this.state;            
         compras.push({
             keyID: snap.key,
@@ -397,4 +370,4 @@ class VerCompras extends Component {
         );
     } 
 }
-export default VerCompras;
+export default VerPrestamos;

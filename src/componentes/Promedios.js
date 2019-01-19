@@ -11,9 +11,9 @@ class Promedios extends Component {
             promedios:[],
             arrobasPergamino:0,
             totalPergamino:0,
-            arrobasPasilla:0,
+            arrobasPasilla:1,
             totalPasilla:0,
-            arrobasCafeVerde:0,
+            arrobasCafeVerde:1,
             totalCafeVerde:0,
             inputTrasladarVerdeValor:'',
             BDtrasladosCafeVerdeArrobas:0,
@@ -26,18 +26,18 @@ class Promedios extends Component {
         this.handleDatabasePromediosCafeVerde=this.handleDatabasePromediosCafeVerde.bind(this)
         this.roundNumber=this.roundNumber.bind(this)
         this.handleTrasladosVerde=this.handleTrasladosVerde.bind(this)
-       
     }
 
-    is_mouted=false
+    is_mouted=false;
+    
 
     componentWillMount(){
-        console.log("cdm")
+        console.log("cwm")
         this.is_mouted=true
     }
 
     componentDidMount(){
-        console.log("cwm")
+        console.log("cdm")
 
         if (this.is_mouted) {
 
@@ -57,8 +57,8 @@ class Promedios extends Component {
                     arrobasPergamino,
                     totalPergamino
                 })
-            });
 
+            });
             var arrobasPasilla = 0;
             var totalPasilla = 0;
             firebase.database().ref('compraDeCafe/compras').orderByChild("calidad_enPromedio").equalTo("Pasilla_false").on('child_added', snap => {
@@ -75,14 +75,14 @@ class Promedios extends Component {
             var totalCafeVerde = 0;
             firebase.database().ref('compraDeCafe/compras').orderByChild("calidad_enPromedio").equalTo("Cafe verde_false").on('child_added', snap => {
 
-                arrobasCafeVerde=arrobasCafeVerde+snap.val().pesoArrobas
-                totalCafeVerde=totalCafeVerde+snap.val().total
+                arrobasCafeVerde=arrobasCafeVerde+snap.val().pesoArrobas;
+                totalCafeVerde=totalCafeVerde+snap.val().total;
                 this.setState({
                     arrobasCafeVerde,
                     totalCafeVerde
                 })
-            });
 
+            });
             var arrobasTrasladosCafeVerde = 0;
             var totalTrasladosCafeVerde = 0;
             firebase.database().ref('compraDeCafe/traslados').orderByChild("calidad_enPromedio").equalTo("Cafe verde_false").on('child_added', snap => {
@@ -94,19 +94,12 @@ class Promedios extends Component {
                     BDtrasladosCafeVerdeTotal:totalTrasladosCafeVerde
                 })
             });
-
-             //Math.round((this.state.totalPergamino+(this.state.inputTrasladarVerdeValor*(this.state.totalCafeVerde/this.state.arrobasCafeVerde)))/(this.state.arrobasPergamino+this.state.inputTrasladarVerdeValor*1)).toLocaleString('es-CO')
-            /*<td>{Math.round((this.state.totalPergamino+(this.state.inputTrasladarVerdeValor*(this.state.totalCafeVerde/this.state.arrobasCafeVerde)))/(this.state.arrobasPergamino+this.state.inputTrasladarVerdeValor*1)).toLocaleString('es-CO')}</td> 
-        <td>{parseInt(this.state.totalPergamino+(this.state.inputTrasladarVerdeValor*(this.state.totalCafeVerde/this.state.arrobasCafeVerde)), 10).toLocaleString('es-CO')}</td>                                                                         
-        */
-
         } 
     }
 
     componentWillUnmount(){
         this.is_mouted=false
         console.log("cwum")
-
     }
 
     trasladarVerde(e) {
@@ -195,10 +188,15 @@ class Promedios extends Component {
                     
                         <tr>
                             <td><label htmlFor="inputPergamino">Trasladar de la pasilla</label></td>
-                            <td><input type="text" id="inputPergamino"/></td>
-                            <td><label htmlFor="selectPergamino"> Al</label></td>
+                            <td><input type="text" id="inputPergamino"
+                                        placeholder="Ejemplo @ : 20"
+                                        className="form-control"
+                            /></td>
+                            <td><label htmlFor="selectPasilla"> Al</label></td>
                             <td>
-                                <select id="selectPergamino">
+                                <select id="selectPasilla"
+                                        className="form-control"
+                                >
                                     <option value="">Pergamino</option>
                                     <option value="">Cafe verde</option>
                                 </select>
@@ -239,10 +237,10 @@ class Promedios extends Component {
                             <td><button onClick={this.handleDatabasePromediosCafeVerde} className="btn btn-primary"><i className="far fa-save Icono"></i></button></td>
                         </tr>                            
                         <tr>
-                            <td><label htmlFor="inputPergamino">Trasladar del cafe Verde</label></td>
+                            <td><label htmlFor="inputCafeVerde">Trasladar del cafe Verde</label></td>
                             <td><input 
                                 type="number" 
-                                id="inputPergamino"
+                                id="inputCafeVerde"
                                 placeholder="Ejemplo @ : 20"
                                 value={this.state.inputTrasladarVerdeValor.toLocaleString('es-CO')}
                                 onChange={this.trasladarVerde.bind(this)}
@@ -250,9 +248,9 @@ class Promedios extends Component {
                                 className="form-control"
                                 name="inputTrasladarVerde"
                                 /></td>
-                            <td><label htmlFor="selectPergamino"> A</label></td>
+                            <td><label htmlFor="selectCafeVerde"> A</label></td>
                             <td className="CajaSelectButton">
-                                <select id="selectPergamino"
+                                <select id="selectCafeVerde"
                                         className="form-control"
                                         name="selectTrasladarVerde">
                                     <option value="">Pergamino</option>

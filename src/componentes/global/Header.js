@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './css/Header.css';
-import logo from './images/grano-cafe.png';
+import logo from './images/dinero.png';
 
 class Header extends Component {
 
@@ -38,7 +38,7 @@ class Header extends Component {
   render() {
     return (
       <div className="Header">
-        <h1 className="Titulo display-4">CoffeeApp</h1>
+        <h1 className="Titulo display-4">PrestamosApp</h1>
         <img width="50px" className="Imagen" src={logo} alt="cafe"/>
       </div>
     );

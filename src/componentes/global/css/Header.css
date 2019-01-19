@@ -8,7 +8,8 @@
   }
   .Imagen {
       display: inline;
-      padding-bottom: 15px;
+      padding-bottom: 18px;
+      margin-left: 9px;
   }
   .Titulo{
       display: inline;

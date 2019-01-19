@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import firebase from 'firebase';
-import logo from './images/grano-cafe.png';
 
 import { Link } from 'react-router-dom';
 
@@ -36,7 +35,7 @@ class NavBar extends Component {
       componentDidMount(){
         this._isMounted = true
     
-      }
+      } 
 
   handleLogout(){
     var r = window.confirm("Esta seguro?");
@@ -46,67 +45,29 @@ class NavBar extends Component {
     } 
   }
 
-    render() {
+  openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+   
+  closeNav() {
+    document.getElementById("mySidenav").style.width="0";
+
+  }
+
+    render() { 
         return (
             <div>
                 <Header/>
-                <nav className="Nav navbar navbar-expand-lg navbar-light">
-                    <a className="navbar-brand" href="#">
-                        <img src={logo} width="30" height="30" className="d-inline-block align-top" alt=""/>
-                        {this.state.user.email}
-                    </a>
-                    
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav mr-auto">
-                            <li className="nav-item dropdown active">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Compras
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link className="dropdown-item"to="/CrearCompras" href="#">Crear compras</Link>
-                                <Link className="dropdown-item"to="VerCompras" href="#">Ver compras</Link>
-                                </div>
-                            </li>
-                            <li className="nav-item dropdown active">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Ventas
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link className="dropdown-item" to="/CrearVentas" href="#">Crear Ventas</Link>
-                                <Link className="dropdown-item" to="/VerVentas" href="#">Ver Ventas</Link>
-                                </div>
-                            </li>
-                            <li className="nav-item dropdown active">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Promedios
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link className="dropdown-item" to="/Promedios" href="#">Promedios</Link>
-                                <Link className="dropdown-item" to="/PromediosGuardados" href="#">Promedios guardados</Link>
-                                </div>
-                            </li>
-                            <li className="nav-item dropdown active">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Cuadre de caja
-                                </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link className="dropdown-item" to="/Gastos"href="#">Gastos</Link>
-                                <Link className="dropdown-item" to="/Ingresos"href="#">Ingresos</Link>
-                                <Link className="dropdown-item" to="/CerrarDia"href="#">Cerrar dia</Link>
-                                <Link className="dropdown-item" to="/HistorialDeCierres"href="#">Historial de cierres</Link>
-                                </div>
-                            </li>
-                            <li className="nav-item active "id="Salir">
-                                    <a className="nav-link" href="#" onClick={this.handleLogout} >Salir <span className="sr-only">(current)</span></a>
-                            </li>
-                            
-                        </ul>
-                   </div>
-                </nav>
+                <div id="mySidenav" className="sidenav">
+                    <a href="#" className="closebtn" onClick={this.closeNav.bind(this)}><i className="fas fa-times "></i></a>
+                    <span className="nav-link user">{this.state.user.email}</span>
+                    <Link className="nav-link "to="/CrearPrestamos" href="#">Crear prestamos</Link>
+                    <Link className="nav-link "to="VerPrestamos" href="#">Ver prestamos</Link>
+                    <a className="nav-link" href="#" onClick={this.handleLogout} >Salir <span className="sr-only">(current)</span></a>
+                </div>
+                <div className="fondo">
+                    <span  onClick={this.openNav.bind(this)}><i className="fas fa-bars Icono"></i></span>
+                </div>
             </div>
         );
     }
