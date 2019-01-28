@@ -1,0 +1,28 @@
+agregar comision *
+editar prestamo *
+eliminar prestamo *
+buscar cliente
+ver prestamo 
+agregar cuota
+agregar mas datos (imagenes)
+registro de usuarios
+tipos de usuario
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

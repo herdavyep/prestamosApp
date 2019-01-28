@@ -66,7 +66,7 @@ class NavBar extends Component {
                     <a className="nav-link" href="#" onClick={this.handleLogout} >Salir <span className="sr-only">(current)</span></a>
                 </div>
                 <div className="fondo">
-                    <span  onClick={this.openNav.bind(this)}><i className="fas fa-bars Icono"></i></span>
+                    <span className="MenuBarras" onClick={this.openNav.bind(this)}><i className="fas fa-bars Icono"></i> Menu</span>
                 </div>
             </div>
         );

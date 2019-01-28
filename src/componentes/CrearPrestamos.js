@@ -15,7 +15,7 @@ class CrearPrestamos extends Component {
             intereses:'',
             valorCuota:12,
             user:'',
-            activado:true
+            activado:'1'
 
         } 
 
@@ -48,6 +48,8 @@ class CrearPrestamos extends Component {
     }
 
     actualizarNombre(e) {
+
+        console.log(e.target.name)
         this.setState({
           nombre: e.target.value   
         });
@@ -172,6 +174,8 @@ console.log(parseInt((((this.state.monto*(this.state.intereses/100))*this.state.
                 numCuotas: this.state.numCuotas*1,
                 monto: this.state.monto*1,
                 intereses:this.state.intereses*1,
+                comision: 0,
+                ValorComision:0,
                 valorCuota: parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas).toLocaleString('es-CO'),
                 user: this.state.user.email,
                 horaExacta: horaExacta,

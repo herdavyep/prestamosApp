@@ -5,6 +5,12 @@
 .user{
   color: #818181;
 }
+
+.MenuBarras{
+  font-size: 25px;
+  margin-left: 5px;
+}
+
 .sidenav {
     height: 100%;
     width: 0;

@@ -10,16 +10,12 @@
 .ContenedorTitulo{
     text-align: center;
 }
-.FechaTabla{
-    text-align: left;
-    background-color:#dbd8d8;
-    width: 300px;
-    margin-bottom: 5px;
-    margin-left: 5px;
-
+.BuscarNombre{
+    text-align: center;
+    width: 200px;
 }
-.BotonBuscar{
-    width: 300px;
+.BotonBuscarNombre{
+    width: 200px;
     height: 30px;
     
 }
@@ -30,9 +26,25 @@
 .card{
     background-color: #efefef;
 }
-.Icono{
-    font-size: 25px;
+.Icono2{
+    font-size: 22px;
+    margin-top: 15px;
 }
+
 .container{
     display: inline-block;
+}
+.boEdi{
+    width: 40px;
+}
+.boEli{
+    width: 40px;
+
+}
+.LiInf{
+    background-color: rgb(85, 167, 71);
+    height: 60px;
+    width: 40px;
+    margin-right: 30px;
+    margin-left: -15.5px;
 }
