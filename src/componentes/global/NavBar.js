@@ -59,11 +59,11 @@ class NavBar extends Component {
             <div>
                 <Header/>
                 <div id="mySidenav" className="sidenav">
-                    <a href="#" className="closebtn" onClick={this.closeNav.bind(this)}><i className="fas fa-times "></i></a>
+                    <a href="#" className="closebtn " onClick={this.closeNav.bind(this)}><i className="fas fa-times navegacion2"></i></a>
                     <span className="nav-link user">{this.state.user.email}</span>
-                    <Link className="nav-link "to="/CrearPrestamos" href="#">Crear prestamos</Link>
-                    <Link className="nav-link "to="VerPrestamos" href="#">Ver prestamos</Link>
-                    <a className="nav-link" href="#" onClick={this.handleLogout} >Salir <span className="sr-only">(current)</span></a>
+                    <Link className="nav-link navegacion2"to="/CrearPrestamos" href="#"><span className="navegacion2" >Crear prestamos</span> </Link>
+                    <Link className="nav-link navegacion2"to="VerPrestamos" href="#"><span className="navegacion2">Ver prestamos</span></Link>
+                    <a className="nav-link navegacion2" href="#" onClick={this.handleLogout} ><span className="navegacion2">Salir</span>  <span className="sr-only">(current)</span></a>
                 </div>
                 <div className="fondo">
                     <span className="MenuBarras" onClick={this.openNav.bind(this)}><i className="fas fa-bars Icono"></i> Menu</span>

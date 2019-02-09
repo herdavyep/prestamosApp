@@ -1,13 +1,15 @@
 agregar comision *
 editar prestamo *
 eliminar prestamo *
-buscar cliente
-ver prestamo 
-agregar cuota
-agregar mas datos (imagenes)
+buscar cliente por nombre * da error por que encuentra los eliminados(mejor buscar por cedula ejemplo cedula_1)
+agregar cuota *
+ver prestamo (ver totales de "monto, utilidad, intereses y capital, etc")*
+mora*
+recordatorio dos dias antes para pago de cuota*
+
 registro de usuarios
 tipos de usuario
-
+agregar mas datos (imagenes)
 
 
 

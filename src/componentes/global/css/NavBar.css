@@ -3,7 +3,10 @@
 
 }
 .user{
-  color: #818181;
+  color: black;
+}
+.navegacion2{
+  color: black;
 }
 
 .MenuBarras{
@@ -11,14 +14,14 @@
   margin-left: 5px;
 }
 
-.sidenav {
+.sidenav { 
     height: 100%;
     width: 0;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: rgb(184, 181, 181);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;

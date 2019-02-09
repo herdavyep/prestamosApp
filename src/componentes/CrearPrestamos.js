@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase'; 
 import swal from 'sweetalert';
+import moment from 'moment';
 
 import './global/css/CrearPrestamos.css'
 
@@ -9,6 +10,7 @@ class CrearPrestamos extends Component {
         super();
         this.state={
             fecha:'',
+            inputFecha:'',
             nombre:'', 
             numCuotas:'',
             monto:'',
@@ -72,15 +74,20 @@ class CrearPrestamos extends Component {
             intereses: e.target.value
         });
     }
+    actualizarInputFecha(e){
+        console.log(e.target.value)
+        this.setState({
+            inputFecha: e.target.value
+        });
+    }
 
     renderFecha(){       
-        var dt = new Date()
-        var dia = dt.getDate();
-        var mes = dt.getMonth()+1;
-        var year = dt.getFullYear();
-        var fecha = (dia+" / "+mes+" / "+year);  
+        
         return(
-            <h5>{fecha}</h5>
+            <div>
+                <input className="form-control inputFecha" type="date" name="inputFecha" id="inputFecha" onChange={this.actualizarInputFecha.bind(this)} value={this.state.inputFecha}/>
+            </div>
+
         )   
     }
   
@@ -153,15 +160,15 @@ class CrearPrestamos extends Component {
 
     handleDatabase(event){
         event.preventDefault();
-console.log(parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas).toLocaleString('es-CO'));
+        console.log(parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas).toLocaleString('es-CO'));
 
-        var dt = new Date()
+        var fecha = moment().format('DD/MM/YYYY');
+        var dt = new Date();
         var dia = dt.getDate();
         var mes = dt.getMonth()+1;
         var year = dt.getFullYear();
         var hora = dt.getHours();
         var minutos = dt.getMinutes();
-        var fecha = (dia+"/"+mes+"/"+year);
         var horaExacta = (hora+":"+minutos);
 
         if(this.state.nombre === ''|| this.state.numCuotas === ''|| this.state.monto === '' || this.state.intereses === ''){
@@ -169,17 +176,19 @@ console.log(parseInt((((this.state.monto*(this.state.intereses/100))*this.state.
         
         }else{
             const record = { 
-                fecha: fecha,
+                fecha: this.state.inputFecha,
                 nombre : this.state.nombre,
                 numCuotas: this.state.numCuotas*1,
+                cuotasPagas: 0,
                 monto: this.state.monto*1,
                 intereses:this.state.intereses*1,
                 comision: 0,
                 ValorComision:0,
-                valorCuota: parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas).toLocaleString('es-CO'),
+                valorCuota: parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas),
                 user: this.state.user.email,
                 horaExacta: horaExacta,
-                activado:this.state.activado        
+                activado:this.state.activado,
+                nombre_activado: this.state.nombre+"_"+this.state.activado    
             } 
         
             const dbRef = firebase.database().ref('prestamosJuan/prestamo');
