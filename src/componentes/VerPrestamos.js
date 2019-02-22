@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import './global/css/VerPrestamos.css';
 import swal from 'sweetalert';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
+import logo from './global/images/Danger.png';
 import moment from 'moment';
 
 class VerPrestamos extends Component { 
@@ -27,6 +28,7 @@ class VerPrestamos extends Component {
             ValorComision:0,
             valorCuota:'',
             user:'',
+            userLogueado:'',
             activado:'',
             keyID:'',
             idArray:'',
@@ -36,7 +38,34 @@ class VerPrestamos extends Component {
             totalInteresesCapital:'',
             totalUtilidad:'',
             totalUtilidadMensual:'',
-            totalComisionMensual:''  
+            totalComisionMensual:'',
+            apellidos:'',
+            numeroCedula:'',
+            ciudad:'',
+            direccion:'',
+            telefono:'',
+            nombreEmpresa:'',
+            sueldo:'',
+            direccionEmpresa:'',
+            telefonoEmpresa:'',
+            actividadIndependiente:'',
+            ciudadActividadIndependiente:'',
+            ingresoActiIndep:'',
+            NRP1:'',
+            DRP1:'',
+            telefonoRP1:'',
+            NRP2:'',
+            DRP2:'',
+            telefonoRP2:'',
+            NRF1:'',
+            PRF1:'',
+            DRF1:'',
+            telefonoRF1:'',
+            NRF2:'',
+            PRF2:'',
+            DRF2:'',
+            telefonoRF2:'',
+              
         };
         this.handleDatabase = this.handleDatabase.bind(this);
         this.renderTabla=this.renderTabla.bind(this);
@@ -47,13 +76,22 @@ class VerPrestamos extends Component {
     }
     _isMounted = false
 
-    componentWillMount(){       
+    componentWillMount(){  
+        
+        
+        firebase.auth().onAuthStateChanged(user => {
+            if(this._isMounted){
+                this.setState({ 
+                    userLogueado: user 
+                });
+            }  
+        })
       
         var totalMonto=0;
         var totalInteresesCapital=0;
         var totalUtilidad=0;
         var totalUtilidadMensual=0;
-        var totalComisionMensual=0;  
+        var totalComisionMensual=0; 
         firebase.database().ref('prestamosJuan/prestamo').orderByChild("activado").equalTo("1").on('child_added', snap => {
             const { prestamos} = this.state; 
 
@@ -70,7 +108,34 @@ class VerPrestamos extends Component {
                 ValorComision:snap.val().ValorComision,
                 user: snap.val().user,
                 valorCuota:snap.val().valorCuota,
-                activado: snap.val().activado   
+                activado: snap.val().activado, 
+                
+                apellidos:snap.val().apellidos,
+                numeroCedula:snap.val().numeroCedula,
+                ciudad:snap.val().ciudad,
+                direccion:snap.val().direccion,
+                telefono:snap.val().telefono,
+                nombreEmpresa:snap.val().nombreEmpresa,
+                sueldo:snap.val().sueldo,
+                direccionEmpresa:snap.val().direccionEmpresa,
+                telefonoEmpresa:snap.val().telefonoEmpresa,
+                actividadIndependiente:snap.val().actividadIndependiente,
+                ciudadActividadIndependiente:snap.val().ciudadActividadIndependiente,
+                ingresoActiIndep:snap.val().ingresoActiIndep,
+                NRP1:snap.val().NRP1,
+                DRP1:snap.val().DRP1,
+                telefonoRP1:snap.val().telefonoRP1,
+                NRP2:snap.val().NRP2,
+                DRP2:snap.val().DRP2,
+                telefonoRP2:snap.val().telefonoRP2,
+                NRF1:snap.val().NRF1,
+                PRF1:snap.val().PRF1,
+                DRF1:snap.val().DRF1,
+                telefonoRF1:snap.val().telefonoRF1,
+                NRF2:snap.val().NRF2,
+                PRF2:snap.val().PRF2,
+                DRF2:snap.val().DRF2,
+                telefonoRF2:snap.val().telefonoRF2,  
             });
             totalMonto=totalMonto+snap.val().monto;
             totalUtilidad=totalUtilidad+((((snap.val().intereses-snap.val().comision)/100)*snap.val().monto)*snap.val().numCuotas)
@@ -169,7 +234,34 @@ class VerPrestamos extends Component {
             user: snap.val().user,
             valorCuota:snap.val().valorCuota,
             activado: snap.val().activado,
-            nombre_activado: snap.val().nombre_activado  
+            nombre_activado: snap.val().nombre_activado,
+            
+            apellidos:snap.val().apellidos,
+            numeroCedula:snap.val().numeroCedula,
+            ciudad:snap.val().ciudad,
+            direccion:snap.val().direccion,
+            telefono:snap.val().telefono,
+            nombreEmpresa:snap.val().nombreEmpresa,
+            sueldo:snap.val().sueldo,
+            direccionEmpresa:snap.val().direccionEmpresa,
+            telefonoEmpresa:snap.val().telefonoEmpresa,
+            actividadIndependiente:snap.val().actividadIndependiente,
+            ciudadActividadIndependiente:snap.val().ciudadActividadIndependiente,
+            ingresoActiIndep:snap.val().ingresoActiIndep,
+            NRP1:snap.val().NRP1,
+            DRP1:snap.val().DRP1,
+            telefonoRP1:snap.val().telefonoRP1,
+            NRP2:snap.val().NRP2,
+            DRP2:snap.val().DRP2,
+            telefonoRP2:snap.val().telefonoRP2,
+            NRF1:snap.val().NRF1,
+            PRF1:snap.val().PRF1,
+            DRF1:snap.val().DRF1,
+            telefonoRF1:snap.val().telefonoRF1,
+            NRF2:snap.val().NRF2,
+            PRF2:snap.val().PRF2,
+            DRF2:snap.val().DRF2,
+            telefonoRF2:snap.val().telefonoRF2,  
         });
         //compras.splice(this.id,1);
         //if(this._isMounted){        
@@ -202,7 +294,34 @@ class VerPrestamos extends Component {
                 ValorComision:snap.val().ValorComision,
                 user: snap.val().user,
                 valorCuota:snap.val().valorCuota,
-                activado: snap.val().activado   
+                activado: snap.val().activado, 
+
+                apellidos:snap.val().apellidos,
+                numeroCedula:snap.val().numeroCedula,
+                ciudad:snap.val().ciudad,
+                direccion:snap.val().direccion,
+                telefono:snap.val().telefono,
+                nombreEmpresa:snap.val().nombreEmpresa,
+                sueldo:snap.val().sueldo,
+                direccionEmpresa:snap.val().direccionEmpresa,
+                telefonoEmpresa:snap.val().telefonoEmpresa,
+                actividadIndependiente:snap.val().actividadIndependiente,
+                ciudadActividadIndependiente:snap.val().ciudadActividadIndependiente,
+                ingresoActiIndep:snap.val().ingresoActiIndep,
+                NRP1:snap.val().NRP1,
+                DRP1:snap.val().DRP1,
+                telefonoRP1:snap.val().telefonoRP1,
+                NRP2:snap.val().NRP2,
+                DRP2:snap.val().DRP2,
+                telefonoRP2:snap.val().telefonoRP2,
+                NRF1:snap.val().NRF1,
+                PRF1:snap.val().PRF1,
+                DRF1:snap.val().DRF1,
+                telefonoRF1:snap.val().telefonoRF1,
+                NRF2:snap.val().NRF2,
+                PRF2:snap.val().PRF2,
+                DRF2:snap.val().DRF2,
+                telefonoRF2:snap.val().telefonoRF2,  
             });
             //compras.splice(this.id,1);
             //if(this._isMounted){        
@@ -211,7 +330,7 @@ class VerPrestamos extends Component {
             });
         }else{
             this.setState({prestamos:[]});
-            var {prestamos} = this.state; 
+            let {prestamos} = this.state; 
             prestamos=[];  
             firebase.database().ref('prestamosJuan/prestamo')
             .orderByChild("nombre_activado").equalTo(this.state.nombreBuscar+"_1")
@@ -229,7 +348,34 @@ class VerPrestamos extends Component {
                     ValorComision:snap.val().ValorComision,
                     user: snap.val().user,
                     valorCuota:snap.val().valorCuota,
-                    activado: snap.val().activado    
+                    activado: snap.val().activado,
+
+                    apellidos:snap.val().apellidos,
+                    numeroCedula:snap.val().numeroCedula,
+                    ciudad:snap.val().ciudad,
+                    direccion:snap.val().direccion,
+                    telefono:snap.val().telefono,
+                    nombreEmpresa:snap.val().nombreEmpresa,
+                    sueldo:snap.val().sueldo,
+                    direccionEmpresa:snap.val().direccionEmpresa,
+                    telefonoEmpresa:snap.val().telefonoEmpresa,
+                    actividadIndependiente:snap.val().actividadIndependiente,
+                    ciudadActividadIndependiente:snap.val().ciudadActividadIndependiente,
+                    ingresoActiIndep:snap.val().ingresoActiIndep,
+                    NRP1:snap.val().NRP1,
+                    DRP1:snap.val().DRP1,
+                    telefonoRP1:snap.val().telefonoRP1,
+                    NRP2:snap.val().NRP2,
+                    DRP2:snap.val().DRP2,
+                    telefonoRP2:snap.val().telefonoRP2,
+                    NRF1:snap.val().NRF1,
+                    PRF1:snap.val().PRF1,
+                    DRF1:snap.val().DRF1,
+                    telefonoRF1:snap.val().telefonoRF1,
+                    NRF2:snap.val().NRF2,
+                    PRF2:snap.val().PRF2,
+                    DRF2:snap.val().DRF2,
+                    telefonoRF2:snap.val().telefonoRF2,    
                 });
                 
                 this.setState({
@@ -309,6 +455,165 @@ class VerPrestamos extends Component {
         });
     }
 
+    // start
+
+    actualizarApellidos(e){
+        this.setState({
+            apellidos: e.target.value
+        });
+    }
+
+    actualizarNumeroCedula(e){
+        this.setState({
+            numeroCedula: e.target.value
+        });
+    }
+
+    actualizarCiudad(e){
+        this.setState({
+            ciudad: e.target.value
+        });
+    }
+
+    actualizarDireccion(e){
+        this.setState({
+            direccion: e.target.value
+        });
+    }
+
+    actualizarTelefono(e){
+        this.setState({
+            telefono: e.target.value
+        });
+    }
+
+    actualizarNombreEmpresa(e){
+        this.setState({
+            nombreEmpresa: e.target.value
+        });
+    }
+
+    actualizarSueldo(e){
+        this.setState({
+            sueldo: e.target.value
+        });
+    }
+
+    actualizarDireccionEmpresa(e){
+        this.setState({
+            direccionEmpresa: e.target.value
+        });
+    }
+
+    actualizarTelefonoEmpresa(e){
+        this.setState({
+            telefonoEmpresa: e.target.value
+        });
+    }
+
+    actualizarActividadIndependiente(e){
+        this.setState({
+            actividadIndependiente: e.target.value
+        });
+    }
+
+    actualizarIngresoActividadIndependiente(e){
+        this.setState({
+            ingresoActiIndep: e.target.value
+        });
+    }
+
+    actualizarCiudadActividadIndependiente(e){
+        this.setState({
+            ciudadActividadIndependiente: e.target.value
+        });
+    }
+
+    actualizarNRP1(e){
+        this.setState({
+            NRP1: e.target.value
+        });
+    }
+
+    actualizarDRP1(e){
+        this.setState({
+            DRP1: e.target.value
+        });
+    }
+
+    actualizarTelefonoRP1(e){
+        this.setState({
+            telefonoRP1: e.target.value
+        });
+    }
+
+    actualizarNRP2(e){
+        this.setState({
+            NRP2: e.target.value
+        });
+    }
+
+    actualizarDRP2(e){
+        this.setState({
+            DRP2: e.target.value
+        });
+    }
+
+    actualizarTelefonoRP2(e){
+        this.setState({
+            telefonoRP2: e.target.value
+        });
+    }
+
+    actualizarNRF1(e){
+        this.setState({
+            NRF1: e.target.value
+        });
+    }
+
+    actualizarDRF1(e){
+        this.setState({
+            DRF1: e.target.value
+        });
+    }
+
+    actualizarParentesoRF1(e){
+        this.setState({
+            PRF1: e.target.value
+        });
+    }
+
+    actualizarTelefonoRF1(e){
+        this.setState({
+            telefonoRF1: e.target.value
+        });
+    }
+
+    actualizarNRF2(e){
+        this.setState({
+            NRF2: e.target.value
+        });
+    }
+
+    actualizarDRF2(e){
+        this.setState({
+            DRF2: e.target.value
+        });
+    }
+
+    actualizarParentesoRF2(e){
+        this.setState({
+            PRF2: e.target.value
+        });
+    }
+
+    actualizarTelefonoRF2(e){
+        this.setState({
+            telefonoRF2: e.target.value
+        });
+    }
+    // end
+
     cargarFormulario(id,i,e){
         e.preventDefault();
         const { prestamos } = this.state;
@@ -326,7 +631,34 @@ class VerPrestamos extends Component {
                     valorCuota:prestamos[i].valorCuota,
                     keyID:prestamos[i].keyID,
                     fechaPrestamo:fechaPrestamo.format('DD/MM/YYYY'),
-                    fechaPago:prestamos[i].fecha
+                    fechaPago:prestamos[i].fecha,
+
+                    apellidos:prestamos[i].apellidos,
+                    numeroCedula:prestamos[i].numeroCedula,
+                    ciudad:prestamos[i].ciudad,
+                    direccion:prestamos[i].direccion,
+                    telefono:prestamos[i].telefono,
+                    nombreEmpresa:prestamos[i].nombreEmpresa,
+                    sueldo:prestamos[i].sueldo,
+                    direccionEmpresa:prestamos[i].direccionEmpresa,
+                    telefonoEmpresa:prestamos[i].telefonoEmpresa,
+                    actividadIndependiente:prestamos[i].actividadIndependiente,
+                    ciudadActividadIndependiente:prestamos[i].ciudadActividadIndependiente,
+                    ingresoActiIndep:prestamos[i].ingresoActiIndep,
+                    NRP1:prestamos[i].NRP1,
+                    DRP1:prestamos[i].DRP1,
+                    telefonoRP1:prestamos[i].telefonoRP1,
+                    NRP2:prestamos[i].NRP2,
+                    DRP2:prestamos[i].DRP2,
+                    telefonoRP2:prestamos[i].telefonoRP2,
+                    NRF1:prestamos[i].NRF1,
+                    PRF1:prestamos[i].PRF1,
+                    DRF1:prestamos[i].DRF1,
+                    telefonoRF1:prestamos[i].telefonoRF1,
+                    NRF2:prestamos[i].NRF2,
+                    PRF2:prestamos[i].PRF2,
+                    DRF2:prestamos[i].DRF2,
+                    telefonoRF2:prestamos[i].telefonoRF2,
                 })
                 var a = moment(prestamos[i].fecha,["YYYY-MM-DD"]);
                 var cuotas = prestamos[i].cuotasPagas;
@@ -360,21 +692,6 @@ class VerPrestamos extends Component {
                 diasMora
             })
         }  
-        
-        /*const record = { 
-            fechaPago: b
-        } 
-
-        const dbRef = firebase.database().ref('prestamosJuan/prestamo');
-        dbRef.child(id).update(record
-        ,function(error) {
-            if (error) {
-                console.log(error.message)
-            } else {
-                         
-            }
-        }); */
-         
     }
 
     roundNumber(num, scale) {
@@ -405,16 +722,14 @@ class VerPrestamos extends Component {
     renderTabla(){
         return(
             <div className="Tabla col-sm-11"> 
-                <div className="card">
+                <div className="c">
                     <div className="ContenedorTitulo">
-                        <h1 className="Titulo display-4">Prestamos</h1> <br/> 
                         {this.renderBuscarCliente()}   <br/>   
                         
                     </div>  
                     {this.renderTotales()}                 
                 </div>                            
-                <br/>  
-                <br/>
+                
                 <table className="table table-bordered table-responsive-sm table-sm" id="tabla">
                 <thead>
                     <tr>
@@ -447,60 +762,371 @@ class VerPrestamos extends Component {
                             <td>{prestamo.ValorComision.toLocaleString('es-CO')}</td>
                             <td>{prestamo.intereses}</td>
                             <td>{prestamo.numCuotas} <br/>
-                                <a href="" className="badge badge-info " data-toggle="modal" data-target="#myModalAgregarCuota" onClick={this.cargarFormulario.bind(this,prestamo.keyID,i)}><i className="fas fa-eye plus"></i></a>
-                                <a href="" className="badge badge-warning agregarCuota " onClick={this.agregarCuota.bind(this,prestamo.keyID)}><i className="fas fa-plus plus"></i></a></td>
+                                <a href="#" className="badge badge-info " data-toggle="modal" data-target="#myModalAgregarCuota" onClick={this.cargarFormulario.bind(this,prestamo.keyID,i)}><i className="fas fa-eye plus"></i></a>
+                                <a href="#" className="badge badge-warning agregarCuota " onClick={this.agregarCuota.bind(this,prestamo.keyID)}><i className="fas fa-plus plus"></i></a></td>
                             
                             <td className="">
                             <div className="container"> 
                                 <div className="container ">
                                     <div className="row ">
                                         <div className="col-5 ">
-                                            <a href=""  className="badge badge-success LiInf" data-toggle="modal" data-target="#myModalInfo" onClick={this.cargarFormulario.bind(this,prestamo.keyID,i)}><i className="fas fa-info-circle Icono2"></i></a>
+                                            <a href="#"  className="badge badge-success LiInf" data-toggle="modal" data-target="#myModalInfo" onClick={this.cargarFormulario.bind(this,prestamo.keyID,i)}><i className="fas fa-info-circle Icono2"></i></a>
                                         </div>
                                         <div className="col-7 ">
-                                            <a href="" className="badge badge-primary boEdi" data-toggle="modal" data-target="#myModal" onClick={this.cargarFormulario.bind(this,prestamo.keyID,i)}><i className="far fa-edit plus"></i></a>
+                                            <a href="#" className="badge badge-primary boEdi" data-toggle="modal" data-target="#myModal" onClick={this.cargarFormulario.bind(this,prestamo.keyID,i)}><i className="far fa-edit plus"></i></a>
                                             <div className="espacio"></div>
-                                            <a href="" onClick={this.EliminarPrestamo.bind(this,prestamo.keyID)} className="badge badge-danger boEli"><i className="far fa-trash-alt plus"></i></a>
+                                            <a href="#" onClick={this.EliminarPrestamo.bind(this,prestamo.keyID)} className="badge badge-danger boEli"><i className="far fa-trash-alt plus"></i></a>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="modal fade" id="myModal" role="dialog">
-                                    <div className="modal-dialog">     
+                                <div className="modal fade " id="myModal" role="dialog">
+                                    <div className="modal-dialog modal-lg modaliti">     
                                         <div className="modal-content">
-                                            <div className="modal-header">
-                                                <h4 className="modal-title">Editar Compra</h4>
+                                            <div className="modal-header ed">
+                                                <h4 className="modal-title losh4">¡EDICION DE DATOS!</h4>
                                             </div>
-                                            <div className="ModalForm modal-body">
+                                            <div className="ModalForm modal-body ede">
                                             <form action="">
-                                                <input className="form-control inputFecha" type="date" name="inputFecha" id="inputFecha" onChange={this.actualizarInputFecha.bind(this)} value={this.state.inputFecha}/>
-
+                                            <div className="form-row ">
+                                                <div className="form-group col-md-4">
+                                                <label htmlFor="inputFecha">Fecha de prestamo: {this.state.fechaPrestamo}</label><br/>
+                                                <input className="form-control inputFecha" type="date" name="inputFecha" id="inputFecha" onChange={this.actualizarInputFecha.bind(this)} value={this.state.inputFecha}/> <br/>
+                                                </div>
+                                                <div className="form-group col-md-4">
                                                 <label htmlFor="NombreModal">Nombre</label><br/>
                                                 <input className="form-control" id="NombreModal" type="text" value={this.state.nombre} onChange={this.actualizarNombre.bind(this)}/><br/>
-                                                
+                                                </div>
+                                                <div className="form-group col-md-4">
                                                 <label htmlFor="PesoKilosModal">Monto</label><br/>
                                                 <input className="form-control" id="PesoKilosModal" type="text" value={this.state.monto} onChange={this.actualizarMonto.bind(this)}/><br/>
-                                                
+                                                </div>
+                                                <div className="form-group col-md-4">
                                                 <label htmlFor="intereses">Intereses</label><br/>
                                                 <input className="form-control" id="intereses" type="text" value={this.state.intereses} onChange={this.actualizarIntereses.bind(this)}/><br/>
-                                                
+                                                </div>
+                                                <div className="form-group col-md-4">
                                                 <label htmlFor="comision">Comision</label><br/>
                                                 <input className="form-control" id="comision" type="text" value={this.state.comision} onChange={this.actualizarComision.bind(this)}/><br/>
-                                                
+                                                </div>
+                                                <div className="form-group col-md-4">
                                                 <label htmlFor="ValorUnidadModal">Numero de cuotas</label><br/>
                                                 <input className="form-control" id="ValorUnidadModal" type="text" value={this.state.numCuotas} onChange={this.actualizarNumeroCuotas.bind(this)}/><br/>
-                                                
-                                                <span >Valor cuota</span><br/>
-                                                <h5>{"$ "+parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas)}</h5>
+                                                </div>
+                                                <div className="form-group col-md-4">
+                                                <h4 >Valor cuota</h4>
+                                                <h5>{"$ "+parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas).toLocaleString('es-CO')}</h5>
+                                                </div>
+                                            </div>
+                                                <div className="Closh4 ">
+                                                <h4 className="modal-title losh4">Datos personales</h4></div>
+                <br/>
+                <div className="form-row ">
+                    <div className="form-group col-md-4">
+                        <label htmlFor="Apellidos">Apellidos</label>
+                        <input 
+                        type="text"
+                        id="Apellidos"
+                        placeholder="Ejemplo: Gallego"
+                        value={this.state.apellidos}
+                        onChange={this.actualizarApellidos.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="cedula">Numero de cedula</label>
+                        <input 
+                        type="text"
+                        id="cedula"
+                        placeholder="Ejemplo: 31234765"
+                        value={this.state.numeroCedula}
+                        onChange={this.actualizarNumeroCedula.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="Ciudad">Ciudad</label>
+                        <input 
+                        id="Ciudad"
+                        type="text"
+                        placeholder="Ejemplo: Pereira"
+                        value={this.state.ciudad}
+                        onChange={this.actualizarCiudad.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/> 
+                    </div>
+                    <div className="form-group col-md-6">
+                        <label htmlFor="Direccion">Direccion</label>
+                        <input 
+                        id="Direccion"
+                        type="text" 
+                        placeholder="Ejemplo: cra 5 # 23-98"
+                        value={this.state.direccion}
+                        onChange={this.actualizarDireccion.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-6">
+                        <label htmlFor="Telefono">Telefono</label>
+                        <input 
+                        id="Telefono"
+                        type="text" 
+                        placeholder="Ejemplo: 3103456565"
+                        value={this.state.telefono}
+                        onChange={this.actualizarTelefono.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+            
+                </div>
+                <div className="Closh4">        
+                <h4 className="modal-title losh4">Datos laborales</h4></div>
+                <div className="form-row ">
+                    <div className="form-group col-md-6">
+
+                        <label htmlFor="NombreEmpresa">Nombre empresa</label>
+                        <input 
+                        type="text"
+                        id="NombreEmpresa"
+                        placeholder="Ejemplo: Ecopetrol"
+                        value={this.state.nombreEmpresa}
+                        onChange={this.actualizarNombreEmpresa.bind(this)} className="form-control"/> <br/>
+                        
+                        <label htmlFor="Sueldo">Sueldo</label>
+                        <input 
+                        type="text"
+                        id="Sueldo"
+                        placeholder="Ejemplo: 900.000"
+                        value={this.state.sueldo}
+                        onChange={this.actualizarSueldo.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-6">
+
+                        <label htmlFor="DireccionEmpresa">Direccion empresa</label>
+                        <input 
+                        id="DireccionEmpresa"
+                        type="text" 
+                        placeholder="Ejemplo: cra 5 # 23-98"
+                        value={this.state.direccionEmpresa}
+                        onChange={this.actualizarDireccionEmpresa.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/> <br/>
+
+                        <label htmlFor="TelefonoEmpresa">Telefono empresa</label>
+                        <input 
+                        id="TelefonoEmpresa"
+                        type="text" 
+                        placeholder="Ejemplo: 3103456565"
+                        value={this.state.telefonoEmpresa}
+                        onChange={this.actualizarTelefonoEmpresa.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+            
+                </div>
+                <div className="Closh4">        
+                <h4 className="modal-title losh4">Datos actividad economica independiente</h4></div>
+                <div className="form-row ">
+                    <div className="form-group col-md-4">
+
+                        <label htmlFor="ActividadEconomicaa">Actividad economica</label>
+                        <input 
+                        type="text"
+                        id="ActividadEconomicaa"
+                        placeholder="Ejemplo: Comerciante"
+                        value={this.state.actividadIndependiente}
+                        onChange={this.actualizarActividadIndependiente.bind(this)} className="form-control"/> <br/>
+                    </div>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="ingresoAct">Ingreso actividad independiente</label>
+                        <input 
+                        type="text"
+                        id="ingresoAct"
+                        placeholder="Ejemplo: 900.000"
+                        value={this.state.ingresoActiIndep}
+                        onChange={this.actualizarIngresoActividadIndependiente.bind(this)} 
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-4">
+
+                        <label htmlFor="CiudadAct">Ciudad</label>
+                        <input 
+                        id="CiudadAct"
+                        type="text" 
+                        placeholder="Ejemplo: Armenia"
+                        value={this.state.ciudadActividadIndependiente}
+                        onChange={this.actualizarCiudadActividadIndependiente.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+            
+                </div>
+                <div className="Closh4">        
+                <h4 className="modal-title losh4">Referencias personales</h4></div>
+                <div className="form-row ">
+                    <div className="form-group col-md-4">
+
+                        <label htmlFor="NombreCompletoRP1">Nombre completo</label>
+                        <input 
+                        type="text"
+                        id="NombreCompletoRP1"
+                        placeholder="Ejemplo: Arbey castaño"
+                        value={this.state.NRP1}
+                        onChange={this.actualizarNRP1.bind(this)} className="form-control"/> <br/>
+                    </div>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="DireccionRP1">Direccion</label>
+                        <input 
+                        type="text"
+                        id="DireccionRP1"
+                        placeholder="Ejemplo: Cra 4 # 4-9"
+                        value={this.state.DRP1}
+                        onChange={this.actualizarDRP1.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-4">
+
+                        <label htmlFor="TelefonoRP1">Telefono</label>
+                        <input 
+                        id="TelefonoRP1"
+                        type="text" 
+                        placeholder="Ejemplo: 3120009987"
+                        value={this.state.telefonoRP1}
+                        onChange={this.actualizarTelefonoRP1.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+            
+                </div>
+                <div className="form-row ">
+                    <div className="form-group col-md-4">
+
+                        <label htmlFor="NombreCompletoRP2">Nombre completo</label>
+                        <input 
+                        type="text"
+                        id="NombreCompletoRP2"
+                        placeholder="Ejemplo: Arbey castaño"
+                        value={this.state.NRP2}
+                        onChange={this.actualizarNRP2.bind(this)} className="form-control"/> <br/>
+                    </div>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="DireccionRP2">Direccion</label>
+                        <input 
+                        type="text"
+                        id="DireccionRP2"
+                        placeholder="Ejemplo: Cra 4 # 4-9"
+                        value={this.state.DRP2}
+                        onChange={this.actualizarDRP2.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-4">
+
+                        <label htmlFor="TelefonoRP2">Telefono</label>
+                        <input 
+                        id="TelefonoRP2"
+                        type="text" 
+                        placeholder="Ejemplo: 3120009987"
+                        value={this.state.telefonoRP2}
+                        onChange={this.actualizarTelefonoRP2.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+            
+                </div>
+                <div className="Closh4">        
+                <h4 className="modal-title losh4">Referencias Familiares</h4></div>
+                <div className="form-row ">
+                    <div className="form-group col-md-3">
+
+                        <label htmlFor="NombreCompletoRf1">Nombre completo</label>
+                        <input 
+                        type="text"
+                        id="NombreCompletoRf1"
+                        placeholder="Ejemplo: Arbey castaño"
+                        value={this.state.NRF1}
+                        onChange={this.actualizarNRF1.bind(this)} className="form-control"/> <br/>
+                    </div>
+                    <div className="form-group col-md-3">
+                        <label htmlFor="Parentesco1">Parentesco</label>
+                        <input 
+                        type="text"
+                        id="Parentesco1"
+                        placeholder="Ejemplo: primo"
+                        value={this.state.PRF1}
+                        onChange={this.actualizarParentesoRF1.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-3">
+                        <label htmlFor="DireccionRf1">Direccion</label>
+                        <input 
+                        type="text"
+                        id="DireccionRf1"
+                        placeholder="Ejemplo: Cra 4 # 4-9"
+                        value={this.state.DRF1}
+                        onChange={this.actualizarDRF1.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-3">
+
+                        <label htmlFor="TelefonoRf1">Telefono</label>
+                        <input 
+                        id="TelefonoRf1"
+                        type="text" 
+                        placeholder="Ejemplo: 3120009987"
+                        value={this.state.telefonoRF1}
+                        onChange={this.actualizarTelefonoRF1.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+            
+                </div>
+
+                <div className="form-row ">
+                    <div className="form-group col-md-3">
+
+                        <label htmlFor="NombreCompletoRf2">Nombre completo</label>
+                        <input 
+                        type="text"
+                        id="NombreCompletoRf2"
+                        placeholder="Ejemplo: Arbey castaño"
+                        value={this.state.NRF2}
+                        onChange={this.actualizarNRF2.bind(this)} className="form-control"/> <br/>
+                    </div>
+                    <div className="form-group col-md-3">
+                        <label htmlFor="Parentesco2">Parentesco</label>
+                        <input 
+                        type="text"
+                        id="Parentesco2"
+                        placeholder="Ejemplo: primo"
+                        value={this.state.PRF2}
+                        onChange={this.actualizarParentesoRF2.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-3">
+                        <label htmlFor="DireccionRf2">Direccion</label>
+                        <input 
+                        type="text"
+                        id="DireccionRf2"
+                        placeholder="Ejemplo: Cra 4 # 4-9"
+                        value={this.state.DRF2}
+                        onChange={this.actualizarDRF2.bind(this)} className="form-control"/>
+                    </div>
+                    <div className="form-group col-md-3">
+
+                        <label htmlFor="TelefonoRf2">Telefono</label>
+                        <input 
+                        id="TelefonoRf2"
+                        type="text" 
+                        placeholder="Ejemplo: 3120009987"
+                        value={this.state.telefonoRF2}
+                        onChange={this.actualizarTelefonoRF2.bind(this)}
+                        autoComplete="nombre"
+                        className="form-control"/>
+                    </div>
+            
+                </div>
 
                                             </form>
-                                            </div>
-                                            <div className="modal-footer">
+                                            </div>                                           
+                                            <div className="modal-footer ede">
                                                 <button onClick={this.handleDatabase} type="button" className="badge badge-primary" data-dismiss="modal"><i className="fas fa-check Icono"></i></button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <div className="modal fade" id="myModalInfo" role="dialog">
                                     <div className="modal-dialog modal-lg" >     
@@ -671,7 +1297,35 @@ class VerPrestamos extends Component {
                 ValorComision:snap.val().ValorComision,
                 user: snap.val().user,
                 valorCuota:snap.val().valorCuota,
-                activado: snap.val().activado   
+                activado: snap.val().activado, 
+                
+                
+                apellidos:snap.val().apellidos,
+                numeroCedula:snap.val().numeroCedula,
+                ciudad:snap.val().ciudad,
+                direccion:snap.val().direccion,
+                telefono:snap.val().telefono,
+                nombreEmpresa:snap.val().nombreEmpresa,
+                sueldo:snap.val().sueldo,
+                direccionEmpresa:snap.val().direccionEmpresa,
+                telefonoEmpresa:snap.val().telefonoEmpresa,
+                actividadIndependiente:snap.val().actividadIndependiente,
+                ciudadActividadIndependiente:snap.val().ciudadActividadIndependiente,
+                ingresoActiIndep:snap.val().ingresoActiIndep,
+                NRP1:snap.val().NRP1,
+                DRP1:snap.val().DRP1,
+                telefonoRP1:snap.val().telefonoRP1,
+                NRP2:snap.val().NRP2,
+                DRP2:snap.val().DRP2,
+                telefonoRP2:snap.val().telefonoRP2,
+                NRF1:snap.val().NRF1,
+                PRF1:snap.val().PRF1,
+                DRF1:snap.val().DRF1,
+                telefonoRF1:snap.val().telefonoRF1,
+                NRF2:snap.val().NRF2,
+                PRF2:snap.val().PRF2,
+                DRF2:snap.val().DRF2,
+                telefonoRF2:snap.val().telefonoRF2,  
             });
             //compras.splice(this.id,1);
             //if(this._isMounted){        
@@ -697,6 +1351,33 @@ class VerPrestamos extends Component {
                 numCuotas:this.state.numCuotas,
                 valorCuota: this.state.valorCuota,
 
+                apellidos:this.state.apellidos,
+                numeroCedula:this.state.numeroCedula,
+                ciudad:this.state.ciudad,
+                direccion:this.state.direccion,
+                telefono:this.state.telefono,
+                nombreEmpresa:this.state.nombreEmpresa,
+                sueldo:this.state.sueldo,
+                direccionEmpresa:this.state.direccionEmpresa,
+                telefonoEmpresa:this.state.telefonoEmpresa,
+                actividadIndependiente:this.state.actividadIndependiente,
+                ciudadActividadIndependiente:this.state.ciudadActividadIndependiente,
+                ingresoActiIndep:this.state.ingresoActiIndep,
+                NRP1:this.state.NRP1,
+                DRP1:this.state.DRP1,
+                telefonoRP1:this.state.telefonoRP1,
+                NRP2:this.state.NRP2,
+                DRP2:this.state.DRP2,
+                telefonoRP2:this.state.telefonoRP2,
+                NRF1:this.state.NRF1,
+                PRF1:this.state.PRF1,
+                DRF1:this.state.DRF1,
+                telefonoRF1:this.state.telefonoRF1,
+                NRF2:this.state.NRF2,
+                PRF2:this.state.PRF2,
+                DRF2:this.state.DRF2,
+                telefonoRF2:this.state.telefonoRF2,  
+
         
             } 
         
@@ -719,7 +1400,34 @@ class VerPrestamos extends Component {
                 comision:this.state.comision,
                 numCuotas:this.state.numCuotas,
                 valorCuota: this.state.valorCuota,
-                fecha:this.state.inputFecha
+                fecha:this.state.inputFecha,
+
+                apellidos:this.state.apellidos,
+                numeroCedula:this.state.numeroCedula,
+                ciudad:this.state.ciudad,
+                direccion:this.state.direccion,
+                telefono:this.state.telefono,
+                nombreEmpresa:this.state.nombreEmpresa,
+                sueldo:this.state.sueldo,
+                direccionEmpresa:this.state.direccionEmpresa,
+                telefonoEmpresa:this.state.telefonoEmpresa,
+                actividadIndependiente:this.state.actividadIndependiente,
+                ciudadActividadIndependiente:this.state.ciudadActividadIndependiente,
+                ingresoActiIndep:this.state.ingresoActiIndep,
+                NRP1:this.state.NRP1,
+                DRP1:this.state.DRP1,
+                telefonoRP1:this.state.telefonoRP1,
+                NRP2:this.state.NRP2,
+                DRP2:this.state.DRP2,
+                telefonoRP2:this.state.telefonoRP2,
+                NRF1:this.state.NRF1,
+                PRF1:this.state.PRF1,
+                DRF1:this.state.DRF1,
+                telefonoRF1:this.state.telefonoRF1,
+                NRF2:this.state.NRF2,
+                PRF2:this.state.PRF2,
+                DRF2:this.state.DRF2,
+                telefonoRF2:this.state.telefonoRF2,  
 
         
             } 
@@ -752,7 +1460,34 @@ class VerPrestamos extends Component {
             ValorComision:snap.val().ValorComision,
             user: snap.val().user,
             valorCuota:snap.val().valorCuota,
-            activado: snap.val().activado   
+            activado: snap.val().activado   ,
+
+            apellidos:snap.val().apellidos,
+            numeroCedula:snap.val().numeroCedula,
+            ciudad:snap.val().ciudad,
+            direccion:snap.val().direccion,
+            telefono:snap.val().telefono,
+            nombreEmpresa:snap.val().nombreEmpresa,
+            sueldo:snap.val().sueldo,
+            direccionEmpresa:snap.val().direccionEmpresa,
+            telefonoEmpresa:snap.val().telefonoEmpresa,
+            actividadIndependiente:snap.val().actividadIndependiente,
+            ciudadActividadIndependiente:snap.val().ciudadActividadIndependiente,
+            ingresoActiIndep:snap.val().ingresoActiIndep,
+            NRP1:snap.val().NRP1,
+            DRP1:snap.val().DRP1,
+            telefonoRP1:snap.val().telefonoRP1,
+            NRP2:snap.val().NRP2,
+            DRP2:snap.val().DRP2,
+            telefonoRP2:snap.val().telefonoRP2,
+            NRF1:snap.val().NRF1,
+            PRF1:snap.val().PRF1,
+            DRF1:snap.val().DRF1,
+            telefonoRF1:snap.val().telefonoRF1,
+            NRF2:snap.val().NRF2,
+            PRF2:snap.val().PRF2,
+            DRF2:snap.val().DRF2,
+            telefonoRF2:snap.val().telefonoRF2, 
         });
         //compras.splice(this.id,1);
         //if(this._isMounted){        
@@ -803,14 +1538,24 @@ class VerPrestamos extends Component {
     }
 
     render(){
-        return (
-            <div>
-                {
-                    this.renderTabla()
-                }
-            </div>
-            
-        );
+
+        if(this.state.userLogueado.uid==="QwbmsCVm1QZWbhM4RFgs9FHXrIv1"){
+            return (
+                <div>
+                    {
+                        this.renderTabla()
+                    }
+                </div>
+            );
+        }else{
+            return(
+                <div>
+                    <img className="dangerr" width="250px" src={logo} alt=""/>
+                    <h1>NO TIENE PERMISO PARA ESTAR EN ESTA PAGINA</h1>
+                </div>
+            );
+        }
+        
     } 
 }
 export default VerPrestamos;
@@ -840,5 +1585,9 @@ export default VerPrestamos;
                 <a href="" onClick={this.actualizarTabla.bind(this)} className="BotonBuscar badge badge-primary"><i className="fas fa-search Icono"></i></a>
             </div>           
         )
+
+
+                                <h1 className="Titulo display-4">Prestamos</h1> <br/> 
+
     }*/
 

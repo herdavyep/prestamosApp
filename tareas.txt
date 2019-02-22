@@ -6,10 +6,12 @@ agregar cuota *
 ver prestamo (ver totales de "monto, utilidad, intereses y capital, etc")*
 mora*
 recordatorio dos dias antes para pago de cuota*
+registro de usuarios*
+tipos de usuario *
 
-registro de usuarios
-tipos de usuario
-agregar mas datos (imagenes)
+agregar mas datos*
+datatable
+
 
 
 

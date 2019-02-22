@@ -3,17 +3,17 @@
     margin-left: auto;
     text-align: center;
     margin-bottom: 100px;
+    margin-top: 20px;
 }
 .Tabla h1{
-    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .ContenedorTitulo{
     text-align: center;
 }
-.BuscarNombre{
-   
-}
+
 .tablaTotales{
 align-items: flex-end;    
 }
@@ -33,6 +33,9 @@ align-items: flex-end;
 }
 .card{
     background-color: #efefef;
+}
+.Icono{
+    width:50px
 }
 .Icono2{
     font-size: 22px;
@@ -74,4 +77,22 @@ align-items: flex-end;
 
 .espacioHorizontal{
     width: 0px;
+}
+.ed{
+    background-color: rgb(97, 97, 97);
+}
+.ede{
+    background-color: rgb(238, 235, 235);
+
+}
+
+.form-control{
+    background-color: rgb(238, 235, 235);
+}
+.losh4{
+    color: white;
+    margin-left: 10px;
+}
+.Closh4{
+    background-color: gray;
 }

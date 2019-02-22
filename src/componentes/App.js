@@ -40,8 +40,8 @@ class App extends Component {
       var fecha2 = moment(b);
 
       var antesDePago = fecha1.diff(fecha2,'days')
-      console.log(antesDePago > -2 && antesDePago < 1)
-      console.log(antesDePago)
+      //console.log(antesDePago > -2 && antesDePago < 1)
+      //console.log(antesDePago)
 
       if(antesDePago > -2 && antesDePago < 1){
         prestamos.push({mensaje:"El cliente "+snap.val().nombre+" debe pagar el dia "+b.format('DD/MM/YYYY')})

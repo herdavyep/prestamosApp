@@ -3,9 +3,9 @@ import firebase from 'firebase';
 import swal from 'sweetalert';
 
 
-import './css/InicioDeSesion.css';
+import './global/css/InicioDeSesion.css';
 
-class InicioDeSesion extends Component {
+class Registro extends Component {
     constructor(){
         super();
         this.state = {
@@ -32,11 +32,10 @@ class InicioDeSesion extends Component {
 
     login(event){
         event.preventDefault();
-        console.log(event.target.name)
-        firebase.auth().signInWithEmailAndPassword(this.state.correo, this.state.contrasena)
+        firebase.auth().createUserWithEmailAndPassword(this.state.correo, this.state.contrasena)
         .then(result => 
     
-        swal(result.user.email,"Inicio exitoso!",  "success")                 
+        swal(result.user.email,"Registro exitoso!",  "success")                 
     )
         .catch(function(error) {
             var errorCode = error.code;
@@ -52,7 +51,7 @@ class InicioDeSesion extends Component {
     formularioLogin(){
         return(
             <div className="card col-md-6">
-            <h1>Ingreso al sistema</h1>
+            <h1>Registro de usuarios</h1>
             <br/>
                 <form onSubmit={this.login.bind(this)}>
                     <div className="form-group ">
@@ -78,7 +77,7 @@ class InicioDeSesion extends Component {
                             onChange={this.actualizarContrasena.bind(this)}
                             autoComplete="nombre"/>
                     </div>
-                    <button name="login" type="submit" className="btn btn-primary btn-lg btn-block" onClick={this.login.bind(this)}>Ingresar</button>
+                    <button type="submit" className="btn btn-primary btn-lg btn-block" onClick={this.login.bind(this)}>Registrar</button>
                 </form>
             </div>
         )
@@ -93,4 +92,4 @@ class InicioDeSesion extends Component {
         );
     }
 }
-export default InicioDeSesion;
+export default Registro;

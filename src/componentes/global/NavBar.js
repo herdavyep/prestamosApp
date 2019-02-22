@@ -55,21 +55,45 @@ class NavBar extends Component {
   }
 
     render() { 
-        return (
-            <div>
-                <Header/>
-                <div id="mySidenav" className="sidenav">
-                    <a href="#" className="closebtn " onClick={this.closeNav.bind(this)}><i className="fas fa-times navegacion2"></i></a>
-                    <span className="nav-link user">{this.state.user.email}</span>
-                    <Link className="nav-link navegacion2"to="/CrearPrestamos" href="#"><span className="navegacion2" >Crear prestamos</span> </Link>
-                    <Link className="nav-link navegacion2"to="VerPrestamos" href="#"><span className="navegacion2">Ver prestamos</span></Link>
-                    <a className="nav-link navegacion2" href="#" onClick={this.handleLogout} ><span className="navegacion2">Salir</span>  <span className="sr-only">(current)</span></a>
+
+        if(this.state.user.uid==="QwbmsCVm1QZWbhM4RFgs9FHXrIv1"){
+            return (
+                <div>
+                    
+                    <Header/>
+                    <div id="mySidenav" className="sidenav">
+                        <a href="#" className="closebtn " onClick={this.closeNav.bind(this)}><i className="fas fa-times navegacion2"></i></a>
+                        <span className="nav-link user">{this.state.user.email}</span>
+                        <Link className="nav-link navegacion2"to="/CrearPrestamos" href="#"><span className="navegacion2" >Crear prestamos</span> </Link>
+                        <Link className="nav-link navegacion2"to="VerPrestamos" href="#"><span className="navegacion2">Ver prestamos</span></Link>
+                        <Link className="nav-link navegacion2"to="Registro" href="#"><span className="navegacion2">Registrar usuarios</span></Link>
+                        <a className="nav-link navegacion2" href="#" onClick={this.handleLogout} ><span className="navegacion2">Salir</span>  <span className="sr-only">(current)</span></a>
+                    </div>
+                    <div className="fondo">
+                        <span className="MenuBarras" onClick={this.openNav.bind(this)}><i className="fas fa-bars Icono"></i></span>
+                    </div>
                 </div>
-                <div className="fondo">
-                    <span className="MenuBarras" onClick={this.openNav.bind(this)}><i className="fas fa-bars Icono"></i> Menu</span>
+            );
+        }else{
+            return(
+                <div>
+                    
+                    <Header/>
+                    <div id="mySidenav" className="sidenav">
+                        <a href="#" className="closebtn " onClick={this.closeNav.bind(this)}><i className="fas fa-times navegacion2"></i></a>
+                        <span className="nav-link user">{this.state.user.email}</span>
+                        <Link className="nav-link navegacion2"to="/CrearPrestamos" href="#"><span className="navegacion2" >Crear prestamos</span> </Link>
+                        <a className="nav-link navegacion2" href="#" onClick={this.handleLogout} ><span className="navegacion2">Salir</span>  <span className="sr-only">(current)</span></a>
+                    </div>
+                    <div className="fondo">
+                        <span className="MenuBarras" onClick={this.openNav.bind(this)}><i className="fas fa-bars Icono"></i> Menu</span>
+                    </div>
                 </div>
-            </div>
-        );
+
+            );
+        }
+
+        
     }
 }
 
