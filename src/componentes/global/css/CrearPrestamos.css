@@ -28,3 +28,20 @@
 .inputFecha{
     width: 180px;
 }
+.spanObligatorios{
+    color: rgb(173, 103, 103);
+}
+
+
+@media screen and (max-width: 480px) {
+
+    .losh4{
+        color: white;
+        margin-left: 10px;
+        font-size: 30px;
+    }
+    .Closh4{
+        background-color: gray;
+    }
+
+}

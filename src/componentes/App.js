@@ -31,6 +31,7 @@ class App extends Component {
         user: user 
       });
     })
+
     firebase.database().ref('prestamosJuan/prestamo').orderByChild("activado").equalTo("1").on('child_added', snap => {
       const { prestamos} = this.state; 
       

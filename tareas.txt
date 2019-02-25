@@ -10,8 +10,12 @@ registro de usuarios*
 tipos de usuario *
 
 agregar mas datos*
-datatable
+datatable*
 
+form crear movil*
+ver mas datos*
+
+conectar con bd y server
 
 
 

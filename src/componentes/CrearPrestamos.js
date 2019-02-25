@@ -273,6 +273,7 @@ class CrearPrestamos extends Component {
         
         return(
             <div>
+                <label htmlFor="inputFecha">Fecha prestamo *</label>
                 <input className="form-control inputFecha" type="date" name="inputFecha" id="inputFecha" onChange={this.actualizarInputFecha.bind(this)} value={this.state.inputFecha}/>
             </div>
 
@@ -282,13 +283,15 @@ class CrearPrestamos extends Component {
     renderFormularioBasico(){ 
         return(
             <div className="CrearCompra card col-md-8">
-                <h1 className="display-5">Datos de prestamo</h1>
+            <div className="Closh4">
+                <h1 className="display-5 losh4">Datos de prestamo</h1></div><br/>
+                <span className="spanObligatorios">Los campos con * son obligatorios</span><br/>
                 {this.renderFecha()}
                 <br/>
                 <div className="form-row ">
                     <div className="form-group col-md-7">
 
-                        <label htmlFor="nombreCliente">Nombre del cliente</label>
+                        <label htmlFor="nombreCliente">Nombre del cliente *</label>
                         <input 
                         type="text"
                         id="nombreCliente"
@@ -296,7 +299,7 @@ class CrearPrestamos extends Component {
                         value={this.state.nombre}
                         onChange={this.actualizarNombre.bind(this)} className="form-control"/> <br/>
                         
-                        <label htmlFor="NumCuotas">Numero de cuotas</label>
+                        <label htmlFor="NumCuotas">Numero de cuotas *</label>
                         <input 
                         type="number"
                         id="NumCuotas"
@@ -305,7 +308,7 @@ class CrearPrestamos extends Component {
                         onChange={this.actualizarNumCuotas.bind(this)} className="form-control"/>
                     </div>
                     <div className="form-group col-md-5">
-                        <label htmlFor="monto">Valor del prestamo</label>
+                        <label htmlFor="monto">Valor del prestamo *</label>
                         <input 
                         id="monto"
                         type="number"
@@ -316,7 +319,7 @@ class CrearPrestamos extends Component {
                         autoComplete="nombre"
                         className="form-control"/> <br/>
 
-                        <label htmlFor="intereses">% Intereses</label>
+                        <label htmlFor="intereses">% Intereses *</label>
                         <input 
                         id="intereses"
                         type="number" 
@@ -350,7 +353,8 @@ class CrearPrestamos extends Component {
 
         return(
             <div className="CrearCompra card col-md-8">
-                <h1 className="display-6">Datos personales</h1>
+                <div className="Closh4">  
+                <h1 className="display-6 losh4">Datos personales</h1></div>
                 <br/>
                 <div className="form-row ">
                     <div className="form-group col-md-4">
@@ -406,8 +410,8 @@ class CrearPrestamos extends Component {
                     </div>
             
                 </div>
-
-                <h1 className="display-6">Datos Empresa donde labora</h1>
+                <div className="Closh4">  
+                <h1 className="display-6 losh4">Datos laborales</h1></div>
                 <div className="form-row ">
                     <div className="form-group col-md-6">
 
@@ -451,8 +455,8 @@ class CrearPrestamos extends Component {
                     </div>
             
                 </div>
-
-                <h1 className="display-6">Datos actividad economica independiente</h1>
+                <div className="Closh4">  
+                <h1 className="display-6 losh4">Datos actividad economica independiente</h1></div>
                 <div className="form-row ">
                     <div className="form-group col-md-4">
 
@@ -491,8 +495,8 @@ class CrearPrestamos extends Component {
                     </div>
             
                 </div>
-
-                <h1 className="display-6">Referencias personales</h1>
+                <div className="Closh4">  
+                <h1 className="display-6 losh4">Referencias personales</h1></div>
                 <div className="form-row ">
                     <div className="form-group col-md-4">
 
@@ -561,8 +565,8 @@ class CrearPrestamos extends Component {
                     </div>
             
                 </div>
-
-                <h1 className="display-6">Referencias Familiares</h1>
+                <div className="Closh4">  
+                <h1 className="display-6 losh4">Referencias Familiares</h1></div>
                 <div className="form-row ">
                     <div className="form-group col-md-3">
 
@@ -725,6 +729,7 @@ class CrearPrestamos extends Component {
                 ValorComision:0,
                 valorCuota: parseInt((((this.state.monto*(this.state.intereses/100))*this.state.numCuotas)+parseInt(this.state.monto))/this.state.numCuotas),
                 user: this.state.user.email,
+                userUid:this.state.user.uid,
                 horaExacta: horaExacta,
                 activado:this.state.activado,
                 nombre_activado: this.state.nombre+"_"+this.state.activado ,   

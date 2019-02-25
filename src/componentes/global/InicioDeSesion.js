@@ -42,6 +42,7 @@ class InicioDeSesion extends Component {
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log(errorCode+'   '+errorMessage)
+            swal("EMAIL O CONTRASEÑA INCORRECTOS","Inicio Denegado!",  "warning") 
           });
           this.setState({
               correo:'',

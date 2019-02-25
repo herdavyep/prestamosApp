@@ -5,18 +5,22 @@
     margin-bottom: 100px;
     margin-top: 20px;
 }
+.ta{
+    margin-top: 20px;
+
+}
 .Tabla h1{
     margin-right: auto;
     margin-left: auto;
 }
-
+.tablaTotales{
+align-items: flex-end;    
+}
 .ContenedorTitulo{
     text-align: center;
 }
 
-.tablaTotales{
-align-items: flex-end;    
-}
+
 .BotonBuscarNombre{
     width: 200px;
     height: 30px;
@@ -96,3 +100,116 @@ align-items: flex-end;
 .Closh4{
     background-color: gray;
 }
+
+.clickable {
+    cursor:pointer;
+ }
+
+
+
+
+
+
+
+table {
+	border: 1px solid #ccc;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table tr {
+	border: 1px solid #ddd;
+	padding: 5px;
+}
+
+table tr:nth-child(even) {
+	background-color: #666;
+	color: white;
+}
+
+table td, table th {
+	padding: 10px;
+	text-align: center;
+}
+.verde{
+    color: green;
+}
+.rojo{
+    color: red;
+}
+
+
+
+/*//////////////////////////////////////////////*/
+
+@media screen and (max-width: 480px) {
+	table {
+		border:0;
+	}
+
+	table tr {
+		margin-bottom: 10px;
+		display: block;
+		border-bottom: 2px solid #ddd;
+
+	}
+
+	table td {
+		display: block;
+		text-align: right;
+		font-size: 16px;
+		border-bottom: 1px dotted #ccc;
+	}
+
+	table td:last-child {
+		border-bottom: 0;
+	}
+
+	table td:before {
+		content: attr(data-label);
+		float: left;
+		text-transform: uppercase;
+		font-weight: 600;
+	}
+
+	table thead {
+		display: none;
+    }
+
+    .container{
+        display: inline-block;
+        width: 75px;
+        margin-right: 25px;
+    }
+    .boEdi{
+        width: 40px;
+    }
+    .boEli{
+        width: 40px;
+    }
+
+    .LiInf{
+        background-color: rgb(85, 167, 71);
+        height: 48px;
+        width: 30px;
+        margin-right: 30px;
+        margin-left: -5px;
+    }
+    .plus2{
+        font-size: 20px;
+        margin-right: 0px
+    }
+    .ainfo{
+        margin-right: 5px
+
+    }
+    .aadd{
+        margin-right: 0px
+
+    }
+    
+}
+
